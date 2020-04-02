@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { StorageService } from '../services/storage.service';
 import { Router } from '@angular/router';
-import { IRegisterDto } from '../models/IRegisterDto';
+import { IRegisterDto } from '../models/Dtos/IRegisterDto';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -12,24 +12,10 @@ import { Observable } from 'rxjs';
   styleUrls: ['./registration.page.scss'],
 })
 export class RegistrationPage implements OnInit {
-
-  // http://localhost:3700
-  url: string = 'http://localhost:3700/auth/register';
-  header = new HttpHeaders({'Content-Type':'application/json'});
-
   registerDto: IRegisterDto = {
     Username: '',
     Email: '',
     Password: ''
-  }
-
-  // this.http.post<any>(this.url, dto, { headers: this.header }).subscribe() ....
-
-
-  registerReq = (dto: IRegisterDto) => {
-    console.log(`Sending: ${dto}`);
-    this.http.post<any>(this.url, dto)
-      .subscribe( res => { console.log(res) });
   }
 
   getHome = () => {
@@ -62,7 +48,7 @@ export class RegistrationPage implements OnInit {
 
  registerAction(){
     console.log(this.registerDto);
-    this.registerReq(this.registerDto);
+    this.authService.register(this.registerDto);
     // if(this.validateInputs()){
     //   console.log(this.registerData);
     // }

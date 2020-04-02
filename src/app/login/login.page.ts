@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthConstants } from '../config/auth-constants';
 import { HttpClient, HttpHeaders } from  '@angular/common/http';
-import { ILoginDto } from '../models/ILoginDto';
+import { ILoginDto } from '../models/Dtos/ILoginDto';
  
 @Component({
   selector: 'app-login',
@@ -13,26 +13,10 @@ import { ILoginDto } from '../models/ILoginDto';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-
-  url: string = 'http://localhost:3700/auth/register';
-  header = new HttpHeaders({'Content-Type':'application/json'});
-
   loginDto: ILoginDto = {
     Username: '',    
     Password: ''
   }
-
-  loginReq = (dto: ILoginDto) => {
-    console.log(`Sending: ${dto}`);
-    this.http.post<any>(this.url, dto)
-      .subscribe( res => { console.log(res) });
-  }
-
-  /*public postData = {
-    header: 'auth-token',
-    username : '',
-    password : ''
-  }*/
 
   constructor(
     private http: HttpClient,
@@ -46,7 +30,7 @@ export class LoginPage implements OnInit {
 
   loginAction(){
     console.log(this.loginDto);
-    this.loginReq(this.loginDto);
+    this.authService.loginReq(this.loginDto);
     
   }
 
