@@ -11,32 +11,22 @@
   <form>
     <ion-item lines="full">
       <ion-label position="floating">Username</ion-label>
-      <ion-input type="text" required></ion-input>
-    </ion-item>
-
-    <ion-item lines="full">
-      <ion-label position="floating">Name</ion-label>
-      <ion-input type="text" required></ion-input>
-    </ion-item>
-
-    <ion-item lines="full">
-      <ion-label position="floating">Surname</ion-label>
-      <ion-input type="text" required></ion-input>
+      <ion-input autocomplete = "off" name = "username" type="text" [(ngModel)]="postData.Username" required></ion-input>
     </ion-item>
 
     <ion-item lines="full">
       <ion-label position="floating">Email</ion-label>
-      <ion-input type="text" required></ion-input>
+      <ion-input autocomplete = "off" name = "email" type="text" [(ngModel)]="postData.Email" required></ion-input>
     </ion-item>
 
     <ion-item lines="full">    
       <ion-label position="floating">Password</ion-label>
-      <ion-input type="password" required></ion-input>
+      <ion-input autocomplete = "off" name = "password" type="password" [(ngModel)]="postData.Password" required></ion-input>
     </ion-item>
 
     <ion-row>
       <ion-col>
-        <ion-button type="submit" color="danger" expand="block">Sign Up</ion-button>
+        <ion-button type="submit" color="danger" expand="block" (click)="registerAction()">Sign Up</ion-button>
       </ion-col>
     </ion-row>
   </form>

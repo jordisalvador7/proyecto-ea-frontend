@@ -22,9 +22,9 @@ signup(postData: any): Observable<any> {
 return this.httpService.post('signup', postData);
 }
 
-logout() {
+/*logout() {
 this.storageService.removeStorageItem(AuthConstants.AUTH).then(res => {
   this.router.navigate(['']);
 });
-}
+}*/
 }

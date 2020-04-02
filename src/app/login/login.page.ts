@@ -4,7 +4,8 @@ import { AuthService } from './../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthConstants } from '../config/auth-constants';
-
+import { HttpClient } from  '@angular/common/http';
+ 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -13,6 +14,7 @@ import { AuthConstants } from '../config/auth-constants';
 export class LoginPage implements OnInit {
 
   public postData = {
+    header: 'auth-token',
     username : '',
     password : ''
   }
@@ -21,7 +23,8 @@ export class LoginPage implements OnInit {
     private router: Router, 
     private authService: AuthService,
     private storageService: StorageService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private http: HttpClient
     ) { }
 
   ngOnInit() {
@@ -31,28 +34,21 @@ export class LoginPage implements OnInit {
     let username = this.postData.username.trim();
     let password = this.postData.password.trim();
 
-    return (this.postData.username && this.postData.password && username.length > 0 && password.length >0)
+    return (
+      this.postData.username &&
+      this.postData.password &&
+      username.length > 0 &&
+      password.length > 0);
   }
 
   loginAction() {
-    if (this.validateInputs()){
-      this.authService.login(this.postData).subscribe((res: any) => {
-        if(res.userData){
-          this.storageService.store(AuthConstants.AUTH, res.userData);
-          this.router.navigate(['home']);
-        }
-        else{
-          console.log('Incorrect username or password')
-        }
-      },
-      (error: any) => {
-        console.log('Network connection error');
-      }
-      )
-        }
-    else {
-      console.log('Give some info')
+    if(this.validateInputs()){
+      console.log(this.postData);
     }
+    else{
+      console.log('Fill all the fields please');
+    }
+   
   }
 
 }
