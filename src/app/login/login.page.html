@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Log In</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding="true">
+  <form>
+
+  <ion-item>
+    <ion-label position="stacked">Username</ion-label>
+    <ion-input autocomplete = "off" name = "username" type="text" [(ngModel)]="postData.username" required></ion-input>
+  </ion-item>
+
+  <ion-item>    
+    <ion-label position="stacked">Password</ion-label>
+    <ion-input autocomplete = "off" name = "password" type="password" [(ngModel)]="postData.password" required></ion-input>
+  </ion-item>
+
+  <ion-row>
+    <ion-col>
+      <ion-button expand ="block" share="round" type="submit" color="success" (click)="loginAction()">Log In</ion-button>
+      <a [routerLink]="['/forgot-password']" class="small-text">Forgot Password?</a>
+    </ion-col>
+  </ion-row>
+  </form>
+</ion-content>
