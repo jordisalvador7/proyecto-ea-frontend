@@ -17,6 +17,7 @@ export class RegistrationPage implements OnInit {
     Password: ''
   };
 
+  
   constructor(
     private authService: AuthService,
     private storageService: StorageService,
@@ -58,3 +59,10 @@ export class RegistrationPage implements OnInit {
 }*/
 
 }
+
+const rememberUser : JSON = <JSON><unknown>{
+  "username" : this.postData.value.Username,
+  "password" : this.postData.value.Password,
+  "email" : this.postData.value.Email  
+}
+
