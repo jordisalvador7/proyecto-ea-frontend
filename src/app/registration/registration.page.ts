@@ -15,7 +15,7 @@ export class RegistrationPage implements OnInit {
 
   // http://localhost:3700
   url: string = 'http://localhost:3700/auth/register';
-  headers = new HttpHeaders({'Content-Type':'application/json'});
+  header = new HttpHeaders({'Content-Type':'application/json'});
 
   registerDto: IRegisterDto = {
     Username: '',
@@ -23,10 +23,12 @@ export class RegistrationPage implements OnInit {
     Password: ''
   }
 
-  // body = { Username: "username85", Email: 'email@email89.com', Password: '12345678'}
+  // this.http.post<any>(this.url, dto, { headers: this.header }).subscribe() ....
+
+
   registerReq = (dto: IRegisterDto) => {
     console.log(`Sending: ${dto}`);
-    this.http.post<IRegisterDto>(this.url, dto)
+    this.http.post<any>(this.url, dto)
       .subscribe( res => { console.log(res) });
   }
 
