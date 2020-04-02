@@ -60,7 +60,7 @@ export class RegistrationPage implements OnInit {
   //   );
   // }
 
- loginAction(){
+ registerAction(){
     console.log(this.registerDto);
     this.registerReq(this.registerDto);
     // if(this.validateInputs()){
