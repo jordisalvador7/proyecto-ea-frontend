@@ -20,7 +20,7 @@ export class LoginPage implements OnInit {
   }
 
   constructor(
-    private router: Router, 
+    private router: Router,
     private authService: AuthService,
     private storageService: StorageService,
     private toastService: ToastService,
