@@ -31,7 +31,7 @@ export class RegistrationPage implements OnInit {
     
     ngOnInit() {}
     
-    // validateInputs() {
+  // validateInputs() {
   //   console.log(this.registerData);
   //   let username = this.registerData.Username.trim();
   //   let password = this.registerData.Password.trim();

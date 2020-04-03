@@ -6,6 +6,7 @@ import { StorageService } from './storage.service';
 import { IRegisterDto } from '../models/Dtos/IRegisterDto';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ILoginDto } from '../models/Dtos/ILoginDto';
+// import { NavController } from 'ionic-angular';
 
 @Injectable({
 providedIn: 'root'
@@ -32,7 +33,11 @@ loginReq = (dto: ILoginDto) => {
   const responseType =  { responseType: 'text' as 'json' };
   console.log(`Sending: ${dto}`);
   this.http.post<any>(this.url+'/login', dto, responseType)
-    .subscribe( res => { console.log(res) });
+    .subscribe( res => { 
+      console.log(res);
+      this.storageService.storeToken(res);
+      // this.navCtrl.setRoot(anOtherPage);
+     });
 }
 
 
