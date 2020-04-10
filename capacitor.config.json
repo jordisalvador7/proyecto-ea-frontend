@@ -1,8 +1,0 @@
-{
-  "appId": "io.ionic.starter",
-  "appName": "login2",
-  "bundledWebRuntime": false,
-  "npmClient": "npm",
-  "webDir": "www",
-  "cordova": {}
-}

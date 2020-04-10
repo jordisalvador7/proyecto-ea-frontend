@@ -1,7 +1,5 @@
 {
-  "name": "login2",
-  "integrations": {
-    "capacitor": {}
-  },
+  "name": "runnea",
+  "integrations": {},
   "type": "angular"
 }
