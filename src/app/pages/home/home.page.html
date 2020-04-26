@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      WELCOME PAGE
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,7 +9,7 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+      <ion-title size="large">WELCOME PAGE</ion-title>
     </ion-toolbar>
   </ion-header>
 
@@ -18,6 +18,20 @@
     </div>
     <ion-button href="/login" expand="block" color="secondary">Log In</ion-button>
     <hr>
-    <ion-button href="/register" expand="block" color="primary">Register</ion-button>      
+    <span class="divider line one-line">or</span>
+    <hr>
+    <ion-button href="/register" expand="block" color="warning">Register</ion-button>  
+    <hr>
+    <span class="divider line one-line">You can also login with: </span>
+    <hr>
+    <ion-button color="tertiary">
+      <ion-icon name="logo-facebook"></ion-icon>
+    </ion-button>
+    <ion-button color="danger">
+      <ion-icon name="logo-google"></ion-icon>
+    </ion-button>    
+    <ion-button>
+      <ion-icon name="logo-twitter"></ion-icon>
+    </ion-button> 
   </div>
 </ion-content>
