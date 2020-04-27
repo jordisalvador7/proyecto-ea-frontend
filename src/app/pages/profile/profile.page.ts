@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from 'src/app/services/http/http.service';
 import { map } from 'rxjs/operators';
@@ -23,7 +24,7 @@ export class ProfilePage implements OnInit {
     email: '',
     history: []
   }
-  constructor(private http: HttpService) { }
+  constructor(private http: HttpService, private authService:AuthService) { }
   
   ngOnInit() {
 
@@ -41,6 +42,7 @@ export class ProfilePage implements OnInit {
         this.userProfile.history = profile.History;
       });
     }
+  
   }
   interface Profile {
     _id: string,

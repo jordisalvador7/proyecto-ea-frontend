@@ -16,12 +16,14 @@ export class AuthService {
   URL: string = 'http://localhost:3700/auth';
   private header: HttpHeaders;
   private loginRedirect: string;
+  private profileRedirect: string;
 
   constructor(private http: HttpClient, 
     private storageService: StorageService,
     private httpService: HttpService,
     private router: Router) {
       this.loginRedirect = '/races';
+      this.profileRedirect = '/profile';
       this.header = new HttpHeaders({
         'Content-Type':  'application/json',
         responseType: 'json'
@@ -40,6 +42,10 @@ export class AuthService {
       this.storageService.storeToken(token).then(_ => this.router.navigateByUrl(this.loginRedirect));
     });
   } 
+
+  goToProfile = () => {
+    this.router.navigateByUrl(this.profileRedirect);
+  }
                 // login = (dto: ILoginDto) => {
                 //   const options =  { responseType: 'text' as 'json' };
               
