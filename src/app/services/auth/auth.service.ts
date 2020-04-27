@@ -21,7 +21,7 @@ export class AuthService {
     private storageService: StorageService,
     private httpService: HttpService,
     private router: Router) {
-      this.loginRedirect = '/profile';
+      this.loginRedirect = '/races';
       this.header = new HttpHeaders({
         'Content-Type':  'application/json',
         responseType: 'json'
