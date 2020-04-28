@@ -1,12 +1,16 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>RACES SEARCHER</ion-title>
+    <ion-title class="ion-text-center">RACES SEARCHER</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <hr>
-  Distance Selector
+  
+     <div class="ion-text-center">
+      Distance Selector
+     </div>
+    
   <ion-item>
     <ion-range min="0" max="1000" step="100" snaps="true" color="success" pin="true">
       <ion-label slot="start">0</ion-label>
@@ -15,30 +19,12 @@
   </ion-item>
 
   <ion-list>
-    <ion-item-group>
-
-      <ion-item-divider>
-        <ion-label>Title</ion-label>
-      </ion-item-divider>
-      <ion-item>
-        <ion-label>{{raceProfile.title}}</ion-label>
-      </ion-item>
-
-      <ion-item-divider>
-        <ion-label>Author</ion-label>
-      </ion-item-divider>
-      <ion-item>
-        <ion-label>{{raceProfile.author}}</ion-label>
-      </ion-item>
-
-      <ion-item-divider>
-        <ion-label>Description</ion-label>
-      </ion-item-divider>
-      <ion-item>
-        <ion-label>{{raceProfile.description}}</ion-label>
-      </ion-item>
-    </ion-item-group>
+   <ion-item *ngFor = "let place of PlaceProfile">
+    <ion-label>{{place.name}}</ion-label>
+   </ion-item>
   </ion-list>
 
-  <ion-button (click)="gotoProfile()">Go to profile</ion-button>
+  
+
+  
 </ion-content>

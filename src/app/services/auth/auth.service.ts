@@ -22,8 +22,7 @@ export class AuthService {
     private storageService: StorageService,
     private httpService: HttpService,
     private router: Router) {
-      this.loginRedirect = '/races';
-      this.profileRedirect = '/profile';
+      this.loginRedirect = '/profile';
       this.header = new HttpHeaders({
         'Content-Type':  'application/json',
         responseType: 'json'
@@ -43,9 +42,7 @@ export class AuthService {
     });
   } 
 
-  goToProfile = () => {
-    this.router.navigateByUrl(this.profileRedirect);
-  }
+  
                 // login = (dto: ILoginDto) => {
                 //   const options =  { responseType: 'text' as 'json' };
               

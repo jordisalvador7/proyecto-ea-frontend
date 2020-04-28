@@ -1,11 +1,12 @@
+import { Placemodel } from './../../models/place/placemodel';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { HttpService } from 'src/app/services/http/http.service';
 import { Component, OnInit } from '@angular/core';
 
-type RaceProfile = {
-  title: string,
-  author: string,
-  description: string
+type placeProfile = {
+  name: string,
+  N: number,
+  E: number
 }
 
 @Component({
@@ -15,30 +16,24 @@ type RaceProfile = {
 })
 export class RacesPage implements OnInit {
 
-  private raceProfile:RaceProfile = {
-    title: '',
-    author: '',
-    description: ''
-  }
+  
+  
 
   constructor(private http:HttpService, private authService:AuthService) { }
 
-  ngOnInit() {
-    this.http.get('/').subscribe( (race: Race) => {
-      this.raceProfile.title = race.Title;
-      this.raceProfile.author = race.Author;
-      this.raceProfile.description = race.Description;
-    });
-  }
+  PlaceProfile: placeProfile;
 
-  gotoProfile(){
-    this.authService.goToProfile();
+  ngOnInit(): void {
+    this.http.get('/races').subscribe(
+      (place:Place) => {
+        this.PlaceProfile.name = place.Name;
+        })
   }
 
 
 }
-interface Race{
-  Title: string,
-  Author: string,
-  Description: string
+interface Place{
+  Name: string,
+  N: number,
+  E: number
 }
