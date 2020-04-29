@@ -21,10 +21,8 @@
       <ion-input autocomplete = "off" name = "password" type="password" [(ngModel)]="registerDto.Password" required></ion-input>
     </ion-item>
 
-    <ion-row>
-      <ion-col>
+    <div id="container">
         <ion-button type="submit" color="danger" expand="block" (click)="registerAction()">Sign Up</ion-button>
-      </ion-col>
-    </ion-row>
+    </div>
   </form>
 </ion-content>

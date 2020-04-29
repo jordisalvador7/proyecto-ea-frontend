@@ -21,19 +21,22 @@ export class RacesPage implements OnInit {
 
   constructor(private http:HttpService, private authService:AuthService) { }
 
-  PlaceProfile: placeProfile;
+  places: Place[];
+  distancia: number;
 
   ngOnInit(): void {
-    this.http.get('/races').subscribe(
-      (place:Place) => {
-        this.PlaceProfile.name = place.Name;
+    this.http.get<Place[]>('/races/places').subscribe(
+      (places:Place[]) => {
+        this.places= places;
+        console.log(this.places)
         })
   }
+  
 
 
 }
 interface Place{
-  Name: string,
+  name: string,
   N: number,
   E: number
 }
