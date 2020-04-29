@@ -7,21 +7,24 @@
 <ion-content>
   <hr>
   
-     <div class="ion-text-center">
+     <div class>
       Distance Selector
      </div>
     
   <ion-item>
-    <ion-range min="0" max="1000" step="100" snaps="true" color="success" pin="true">
-      
+    <ion-range [(ngModel)]= "distancia" min="0" max="1000" step="100" snaps="true" color="success" pin="true">      
       <ion-label slot="start">0</ion-label>
       <ion-label slot="end">+ 1000</ion-label>
     </ion-range>
+
   </ion-item>
+  
+  <h3><b>Distance: {{distancia}}</b></h3>
 
   <ion-list>
    <ion-item *ngFor = "let place of places">
-    <ion-label>{{place.name}}</ion-label>
+    <ion-label><b>City:</b> {{place.name}}</ion-label>
+    
   </ion-item>
   </ion-list>
 
