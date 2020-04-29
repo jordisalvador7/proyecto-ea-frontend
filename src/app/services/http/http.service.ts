@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { StorageService } from '../storage/storage.service';
 import { Observable } from 'rxjs';
+import { API_URL } from 'src/environments/custom';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class HttpService {
   private headers: HttpHeaders;
 
   constructor(private http: HttpClient, private storage: StorageService) { 
-    this.URL = 'http://localhost:3700'
+    this.URL = API_URL;
     this.setOptions();
     }
 
