@@ -19,12 +19,12 @@ export class RacesPage implements OnInit {
 
   constructor(private http:HttpService, private authService:AuthService, public platform:Platform) {
     this.platform.ready().then(() => {
-      this.distancia = "1000";
+      this.distance = "100000";
     })
    }
 
   places: Place[];
-  distancia: string;
+  distance: string;
 
   ngOnInit(): void {
     this.http.get<Place[]>('/races/places').subscribe(
