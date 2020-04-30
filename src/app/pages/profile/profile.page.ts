@@ -18,7 +18,7 @@ type UserProfile = {
 })
 export class ProfilePage implements OnInit {
   
-  private userProfile: UserProfile = {
+  public userProfile: UserProfile = {
     id: '',
     username: '',
     email: '',

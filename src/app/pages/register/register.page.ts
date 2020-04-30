@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IRegisterDto } from 'src/app/models/dtos/IRegisterDto';
+import { IRegisterDto } from 'src/app/models/Dtos/IRegisterDto';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({

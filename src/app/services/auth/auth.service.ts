@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
-import { IRegisterDto } from '../../models/dtos/IRegisterDto';
-import { ILoginDto } from '../../models/dtos/ILoginDto';
+import { IRegisterDto } from '../../models/Dtos/IRegisterDto';
+import { ILoginDto } from '../../models/Dtos/ILoginDto';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { StorageService } from '../storage/storage.service';
 import { Router } from '@angular/router';
 import { HttpService } from '../http/http.service';
 import { map } from 'rxjs/operators';
 import { stringify } from 'querystring';
+import { API_URL } from 'src/environments/custom';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  URL: string = 'http://localhost:3700/auth';
+  URL: string = API_URL + '/auth';
   private header: HttpHeaders;
   private loginRedirect: string;
   private profileRedirect: string;
