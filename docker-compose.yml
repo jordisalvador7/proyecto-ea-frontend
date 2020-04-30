@@ -1,0 +1,27 @@
+version: '2'
+services:
+  ea-frontend:
+    image: antonestrela/proyecto-ea-frontend:latest
+    ports:
+      - "80:80"
+  ea-backend:
+    image: antonestrela/proyecto-ea-backend:latest
+    depends_on:
+      - ea-mongo
+    ports: 
+      - "8080:3700"
+    environment: 
+      - DB_CONNECTION=mongodb://ea-mongo:27017/test0
+    networks:
+      - db-net
+  ea-mongo:
+    image: mongo:4.2.5
+    restart: always
+    volumes:
+      - "/root/mongo:/data/db"
+    networks:
+      - db-net  
+
+networks:
+  db-net:
+    driver: bridge
