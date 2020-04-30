@@ -4,22 +4,22 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content id = "container">
   <hr>
   
      <div class>
-      Distance Selector
+      <h3><b>DISTANCE SELECTOR</b></h3>
      </div>
     
   <ion-item>
-    <ion-range [(ngModel)]= "distancia" min="0" max="1000" step="100" snaps="true" color="success" pin="true">      
-      <ion-label slot="start">0</ion-label>
-      <ion-label slot="end">+ 1000</ion-label>
+    <ion-range [(ngModel)]= "distance" min="100" max="100000" color="success" pin="true">      
+      <ion-icon name="location-sharp" slot = "start" size= "small" color = "danger"></ion-icon>
+      <ion-icon name="location-sharp" slot ="end" color = "danger" size = "large"></ion-icon>
     </ion-range>
 
   </ion-item>
   
-  <h3><b>Distance: {{distancia}}</b></h3>
+  <h5><b>Showing races up to {{distance}} meters from your current location</b></h5>
 
   <ion-list>
    <ion-item *ngFor = "let place of places">
