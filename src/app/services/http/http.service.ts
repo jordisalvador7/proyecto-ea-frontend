@@ -33,5 +33,7 @@ export class HttpService {
   //   this.http.get(`${this.URL}${endpoint}`, { headers: this.headers })
   //   .pipe(map(res => { console.log(res); return res })).subscribe();
   // }
+
+  
   
 }

@@ -23,22 +23,38 @@ export class RacesPage implements OnInit {
     })
    }
 
-  places: Place[];
+  place: Place[];
+   places2: Place2[];
   distance: string;
 
   ngOnInit(): void {
-    this.http.get<Place[]>('/races/places').subscribe(
-      (places:Place[]) => {
-        this.places= places;
-        console.log(this.places)
+    this.http.get<Place2[]>('/races/places2').subscribe(
+      (places2:Place2[]) => {
+        this.places2= places2;
+        console.log(this.places2)
         })
   }
   
-
+  getNearPlaces(){
+    this.http.get<Place2[]>('/races/places2/nearest').subscribe(
+      (places2:Place2[]) => {
+        this.places2= places2;
+        console.log(this.places2)
+        })
+  }
 
 }
 interface Place{
   name: string,
   N: number,
   E: number
+}
+
+interface Place2{
+  name: string,
+  location: {
+    long: number,
+    lat: number;
+  },
+  category: string
 }
