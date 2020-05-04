@@ -1,1 +1,1 @@
-export const API_URL = 'http://runnea.tk:8080';
+export const API_URL = 'http://localhost:3700';
