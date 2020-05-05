@@ -24,11 +24,11 @@ export class RacesPage implements OnInit {
    }
 
   place: Place[];
-   places2: Place2[];
+  places2: Place2[];
   distance: string;
 
   ngOnInit(): void {
-    this.http.get<Place2[]>('/races/places2').subscribe(
+    this.http.get<Place2[]>('/races/places').subscribe(
       (places2:Place2[]) => {
         this.places2= places2;
         console.log(this.places2)
@@ -36,7 +36,8 @@ export class RacesPage implements OnInit {
   }
   
   getNearPlaces(){
-    this.http.get<Place2[]>('/races/places2/nearest').subscribe(
+    let url:string = '/races/places/nearest/'+ this.distance
+    this.http.get<Place2[]>(url).subscribe(
       (places2:Place2[]) => {
         this.places2= places2;
         console.log(this.places2)
@@ -55,6 +56,5 @@ interface Place2{
   location: {
     long: number,
     lat: number;
-  },
-  category: string
+  }
 }
