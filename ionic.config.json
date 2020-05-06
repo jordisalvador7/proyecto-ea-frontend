@@ -1,5 +1,7 @@
 {
   "name": "runnea",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
