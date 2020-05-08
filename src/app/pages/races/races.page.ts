@@ -3,6 +3,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { HttpService } from 'src/app/services/http/http.service';
 import { Component, OnInit } from '@angular/core';
 import {Platform} from '@ionic/angular';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 type placeProfile = {
   name: string,
@@ -17,9 +18,14 @@ type placeProfile = {
 })
 export class RacesPage implements OnInit {
 
-  constructor(private http:HttpService, private authService:AuthService, public platform:Platform) {
+  constructor(
+    private http:HttpService,
+    private authService:AuthService,
+    public platform:Platform,
+    )
+    {
     this.platform.ready().then(() => {
-      this.distance = "100000";
+      this.distance = '100000';
     })
    }
 
@@ -34,9 +40,9 @@ export class RacesPage implements OnInit {
         console.log(this.places2)
         })
   }
-  
+
   getNearPlaces(){
-    let url:string = '/races/places/nearest/'+ this.distance
+    const url:string = '/races/places/nearest/'+ this.distance
     this.http.get<Place2[]>(url).subscribe(
       (places2:Place2[]) => {
         this.places2= places2;
@@ -54,7 +60,6 @@ interface Place{
 interface Place2{
   name: string,
   location: {
-    long: number,
-    lat: number;
+
   }
 }
