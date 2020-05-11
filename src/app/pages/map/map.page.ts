@@ -31,14 +31,14 @@ export class MapPage {
     this.http.get<Place2[]>('/races/places').subscribe(
       (places2:Place2[]) => {
         this.places2= places2;
-        console.log(this.places2)
-      })
-    /*for (var place of this.places2){
-      marker([this.places2.location.coordinates[0], this.longitude]).addTo(this.map)
-      .bindPopup(this.places2.name)
+        console.log((this.places2))
+        for (let i=0; i<places2.length; i++){
+          marker([places2[i].location.coordinates[1], places2[i].location.coordinates[0]]).addTo(this.map)
+      .bindPopup(places2[i].name)
       .openPopup();
-    }*/
-    
+
+        }
+      })
   }
 
   async leafletMap()
