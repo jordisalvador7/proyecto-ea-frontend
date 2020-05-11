@@ -42,7 +42,6 @@ export class RacesPage implements OnInit {
 
   ngOnInit(): void {
     this.getCurrentPosition();
-    
     this.http.get<Place2[]>('/races/places').subscribe(
       (places2:Place2[]) => {
         this.places2= places2;
@@ -51,7 +50,6 @@ export class RacesPage implements OnInit {
   }
 
   getNearPlaces(){
-    
     const url:string = '/races/places/nearest/'+ this.distance + '/' + this.latitude + '/' + this.longitude
     this.http.get<Place2[]>(url).subscribe(
       (places2:Place2[]) => {

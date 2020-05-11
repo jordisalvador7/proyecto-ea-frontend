@@ -18,12 +18,16 @@ export class MapPage {
 
   latitude: number;
   longitude: number;
+  distance: string;
 
   map: Map;
   //center: PointTuple;
   startCoords = [this.latitude, this.longitude];
 
-  constructor(private http:HttpService)  {  }
+  constructor(private http:HttpService, public platform:Platform)  { 
+    this.platform.ready().then(() => {
+    this.distance = '100000';
+  }) }
   places2: Place2[];
 
   ionViewDidEnter() { 
@@ -47,17 +51,13 @@ export class MapPage {
     this.latitude = position.coords.latitude;
     this.longitude = position.coords.longitude;
     console.log('Current', position);
-    //this.map.setView([this.latitude, this.longitude], 15);
     this.map = new Map('mapId').setView([this.latitude, this.longitude], 15);
     tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
       attribution: 'edupala.com © ionic LeafLet',
     }).addTo(this.map);
     marker([this.latitude, this.longitude]).addTo(this.map)
-      .bindPopup('You are here')
+      .bindPopup('Your Location')
       .openPopup();
-
-    
-
   }
 
   /*async getLocation(){
@@ -91,11 +91,35 @@ export class MapPage {
       attribution: 'edupala.com © ionic LeafLet',
     }).addTo(this.map);
     marker([this.latitude, this.longitude]).addTo(this.map)
-      .bindPopup('You are here')
+      .bindPopup('Your Location')
       .openPopup();
   }
- 
+
+  async getNearPlaces(){
+    const url:string = '/races/places/nearest/'+ this.distance + '/' + this.latitude + '/' + this.longitude
+    this.map.remove();
+    this.map = new Map('mapId').setView([this.latitude, this.longitude], 15);
+    tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'edupala.com © ionic LeafLet',
+    }).addTo(this.map);
+    marker([this.latitude, this.longitude]).addTo(this.map)
+    .bindPopup('Your Location')
+    .openPopup();
+    this.http.get<Place2[]>(url).subscribe(
+      (places2:Place2[]) => {
+        this.places2= places2;
+        console.log((this.places2))
+        for (let i=0; i<places2.length; i++){
+          marker([places2[i].location.coordinates[1], places2[i].location.coordinates[0]]).addTo(this.map)
+      .bindPopup(places2[i].name)
+      .openPopup();
+
+        }
+      })
+  }
 }
+
+
 
 interface Place2{
   name: string,
