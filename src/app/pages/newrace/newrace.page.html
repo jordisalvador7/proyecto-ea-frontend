@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="ion-text-center">
+     ADD NEW RACE
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-content id="mapId" style="width: 100%; height: 50%"></ion-content>
+    <ion-item lines="full">
+      <ion-label position="floating">Title</ion-label>
+      <ion-input autocomplete = "off" name = "title" type="text" required></ion-input>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label position="floating">Description</ion-label>
+      <ion-input autocomplete = "off" name = "description" type="text" required></ion-input>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label position="floating">Description</ion-label>
+      <ion-input autocomplete = "off" name = "email" type="text" required></ion-input>
+    </ion-item>
+
+    <div id="container">
+        <ion-button type="submit" color="danger" expand="block" (click)="save()">Sign Up</ion-button>
+    </div>
+</ion-content>

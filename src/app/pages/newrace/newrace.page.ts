@@ -1,34 +1,40 @@
-import { Component } from '@angular/core';
-import { Map, PointTuple, map, tileLayer } from 'leaflet';
+import { Component, OnInit } from '@angular/core';
+import { Map, PointTuple, map, tileLayer, marker, Marker } from 'leaflet';
 import 'leaflet-routing-machine';
 import { Platform } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { delay } from 'rxjs/operators';
+import { HttpService } from 'src/app/services/http/http.service';
 
 @Component({
-  selector: 'app-map',
-  templateUrl: './map.page.html',
-  styleUrls: ['./map.page.scss'],
+  selector: 'app-newrace',
+  templateUrl: './newrace.page.html',
+  styleUrls: ['./newrace.page.scss'],
 })
-export class MapPage {
 
-  lat:any=''
-  lng:any=''
+export class NewracePage implements OnInit {
+
+  lat:any='41.27555556'
+  lng:any='1.98694444'
 
   map: Map;
   center: PointTuple;
-  startCoords = [this.lat, this.lng];
+  startCoords: PointTuple = [this.lat, this.lng];
+  startMarker: Marker;
 
   constructor(
+    private http: HttpService,
     public platform: Platform,
     private geolocation: Geolocation) 
   {
-    //this.center = this.startCoords;
+    this.center = this.startCoords;
     this.platform.ready().then(() =>
     {
       this.leafletMap();
     })
   }
-
+  ngOnInit(){
+  }
   leafletMap()
   {
     this.map = map('mapId', 
@@ -41,7 +47,16 @@ export class MapPage {
       attribution: '', 
     }).addTo(this.map);
 
+    this.startMarker = marker(this.startCoords, {draggable: true}).addTo(this.map)
+      .bindPopup('Ionic <br> Leaflet.')
+      .on('dragend', function() {
+        this.startMarker.bindPopup('Starting Point <br>' + String(this.startMarker.getLatLng()));
+      });
    
+  }
+
+  save(){
+    this.http.post('/races',)
   }
 
   async getLocation(){

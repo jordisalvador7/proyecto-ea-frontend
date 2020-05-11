@@ -34,6 +34,8 @@ export class HttpService {
   //   .pipe(map(res => { console.log(res); return res })).subscribe();
   // }
 
+  post = <TResponse>(endpoint: string, body: any): Observable<TResponse> =>
+    this.http.post<TResponse>(`${this.URL}${endpoint}`, { headers: this.headers, body: body });
   
   
 }

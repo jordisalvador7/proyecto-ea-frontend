@@ -23,6 +23,10 @@ const routes: Routes = [
   {
     path: 'map',
     loadChildren: () => import('./pages/map/map.module').then( m => m.MapPageModule)
+  },
+  {
+    path: 'newrace',
+    loadChildren: () => import('./pages/newrace/newrace.module').then( m => m.NewracePageModule)
   }
 
 

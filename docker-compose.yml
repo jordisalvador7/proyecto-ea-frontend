@@ -13,15 +13,22 @@ services:
     environment: 
       - DB_CONNECTION=mongodb://ea-mongo:27017/test0
     networks:
-      - db-net
+      db-net:
+        ipv4_address: 172.16.10.3
   ea-mongo:
     image: mongo:4.2.5
     restart: always
     volumes:
       - "/root/mongo:/data/db"
     networks:
-      - db-net  
+      db-net:
+        ipv4_address: 172.16.10.2
 
 networks:
   db-net:
     driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.10.0/24
+          gateway: 172.16.10.1
