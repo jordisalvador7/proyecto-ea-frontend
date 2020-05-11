@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
+import { HttpService } from 'src/app/services/http/http.service';
 import 'leaflet-routing-machine';
 import { Platform } from '@ionic/angular';
 //import { Geolocation } from '@ionic-native/geolocation/ngx';
@@ -22,16 +23,40 @@ export class MapPage {
   //center: PointTuple;
   startCoords = [this.latitude, this.longitude];
 
-  constructor()  {  }
+  constructor(private http:HttpService)  {  }
+  places2: Place2[];
 
-  ionViewDidEnter() { this.leafletMap(); }
+  ionViewDidEnter() { 
+    this.leafletMap();
+    this.http.get<Place2[]>('/races/places').subscribe(
+      (places2:Place2[]) => {
+        this.places2= places2;
+        console.log(this.places2)
+      })
+    /*for (var place of this.places2){
+      marker([this.places2.location.coordinates[0], this.longitude]).addTo(this.map)
+      .bindPopup(this.places2.name)
+      .openPopup();
+    }*/
+    
+  }
 
-  leafletMap()
+  async leafletMap()
   {
-    this.map = new Map('mapId').setView([41.27555556, 1.98694444], 15);
+    const position = await Geolocation.getCurrentPosition();
+    this.latitude = position.coords.latitude;
+    this.longitude = position.coords.longitude;
+    console.log('Current', position);
+    //this.map.setView([this.latitude, this.longitude], 15);
+    this.map = new Map('mapId').setView([this.latitude, this.longitude], 15);
     tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
       attribution: 'edupala.com © ionic LeafLet',
     }).addTo(this.map);
+    marker([this.latitude, this.longitude]).addTo(this.map)
+      .bindPopup('You are here')
+      .openPopup();
+
+    
 
   }
 
@@ -70,4 +95,14 @@ export class MapPage {
       .openPopup();
   }
  
+}
+
+interface Place2{
+  name: string,
+  location: LatLng
+}
+
+interface LatLng{
+  type: string,
+  coordinates: number
 }

@@ -2,13 +2,13 @@
   <ion-toolbar>
     <ion-title class="ion-text-center">
      MAP VIEW
+     <ion-button href="/races" color = "success" size = "small" shape = "round">Switch to List View <ion-icon name="list"></ion-icon></ion-button>
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<div id = "container">
-  <ion-button href="/races" color = "success" >Switch to List View <ion-icon name="list"></ion-icon></ion-button>
-  <ion-button (click)="getCurrentPosition()" >Go To Your Location<ion-icon name="location-sharp" slot ="end" color = "danger" size = "large"></ion-icon></ion-button>
+<div id = "container"> 
+  <ion-button (click)="getCurrentPosition()" shape = "round">Go To Your Location<ion-icon name="location-sharp" slot ="end" color = "danger" size = "large"></ion-icon></ion-button>
 </div>
 
 <ion-content id="mapId" style="width: 100%; height: 100%"></ion-content>

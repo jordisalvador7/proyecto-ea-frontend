@@ -2,6 +2,10 @@
   <ion-toolbar>
     <ion-back-button></ion-back-button>
     <ion-title class="ion-text-center">RACES SEARCHER</ion-title>
+    
+    <ion-button href="/map" color = "success" size = "small" shape = "round">Switch to Map View <ion-icon name="map-sharp"></ion-icon></ion-button> 
+    
+       
   </ion-toolbar>
 </ion-header>
 
@@ -11,6 +15,12 @@
      <div class>
       <h3><b>DISTANCE SELECTOR</b></h3>
      </div>
+
+    <ion-item>
+      <ion-label><b>Your location is </b></ion-label>
+      <ion-label><b>Long:</b> {{this.longitude}}</ion-label>
+      <ion-label><b>Lat:</b> {{this.latitude}}</ion-label>  
+    </ion-item>
     
   <ion-item>
     <ion-range [(ngModel)]= "distance" min="100" max="100000" color="success" pin="true" (ionChange) = "getNearPlaces()">      
@@ -24,12 +34,13 @@
 
   <ion-list>
    <ion-item *ngFor = "let place of places2">
-    <ion-label><b>City:</b> {{place.name}}</ion-label>  
+    <ion-label><b>Location:</b> {{place.name}}</ion-label>  
+    <ion-label><b>Long:</b> {{place.location.coordinates[0]}}</ion-label>
+    <ion-label><b>Lat:</b> {{place.location.coordinates[1]}}</ion-label>
+      
   </ion-item>
   </ion-list>
-<div id = "container">
-  <ion-button href="/map" color = "success" >Switch to Map View <ion-icon name="map-sharp"></ion-icon></ion-button>
-</div>
+
   
 </ion-content>
 
