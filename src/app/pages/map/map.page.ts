@@ -28,17 +28,19 @@ export class MapPage {
     this.platform.ready().then(() => {
     this.distance = '100000';
   }) }
+
   places2: Place2[];
+  races: Race[];
 
   ionViewDidEnter() { 
     this.leafletMap();
-    this.http.get<Place2[]>('/races/places').subscribe(
-      (places2:Place2[]) => {
-        this.places2= places2;
+    this.http.get<Race[]>('/races/races').subscribe(
+      (races:Race[]) => {
+        this.races= races;
         console.log((this.places2))
-        for (let i=0; i<places2.length; i++){
-          marker([places2[i].location.coordinates[1], places2[i].location.coordinates[0]]).addTo(this.map)
-      .bindPopup(places2[i].name)
+        for (let i=0; i<races.length; i++){
+          marker([races[i].startingPoint.coordinates[1], races[i].startingPoint.coordinates[0]]).addTo(this.map)
+      .bindPopup(races[i].title)
       .openPopup();
 
         }
@@ -60,26 +62,6 @@ export class MapPage {
       .openPopup();
   }
 
-  /*async getLocation(){
-    this.geolocation.getCurrentPosition(
-      {maximumAge: 1000, timeout: 5000,
-       enableHighAccuracy: true }
-      ).then((resp) => {
-            // resp.coords.latitude
-            // resp.coords.longitude
-            //alert("r succ"+resp.coords.latitude)
-            alert(JSON.stringify( resp.coords));
-      
-            this.lat=resp.coords.latitude
-            this.lng=resp.coords.longitude
-            },er=>{
-              //alert("error getting location")
-              alert('Can not retrieve Location')
-            }).catch((error) => {
-            //alert('Error getting location'+JSON.stringify(error));
-            alert('Error getting location - '+JSON.stringify(error))
-            });
-  }*/
 
   async getCurrentPosition() {
     const position = await Geolocation.getCurrentPosition();
@@ -96,7 +78,7 @@ export class MapPage {
   }
 
   async getNearPlaces(){
-    const url:string = '/races/places/nearest/'+ this.distance + '/' + this.latitude + '/' + this.longitude
+    const url:string = '/races/races/nearest/'+ this.distance + '/' + this.latitude + '/' + this.longitude
     this.map.remove();
     this.map = new Map('mapId').setView([this.latitude, this.longitude], 15);
     tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
@@ -105,13 +87,13 @@ export class MapPage {
     marker([this.latitude, this.longitude]).addTo(this.map)
     .bindPopup('Your Location')
     .openPopup();
-    this.http.get<Place2[]>(url).subscribe(
-      (places2:Place2[]) => {
-        this.places2= places2;
-        console.log((this.places2))
-        for (let i=0; i<places2.length; i++){
-          marker([places2[i].location.coordinates[1], places2[i].location.coordinates[0]]).addTo(this.map)
-      .bindPopup(places2[i].name)
+    this.http.get<Race[]>(url).subscribe(
+      (races:Race[]) => {
+        this.races= races;
+        console.log((this.races))
+        for (let i=0; i<races.length; i++){
+          marker([races[i].startingPoint.coordinates[1], races[i].startingPoint.coordinates[0]]).addTo(this.map)
+      .bindPopup(races[i].title)
       .openPopup();
 
         }
@@ -119,7 +101,14 @@ export class MapPage {
   }
 }
 
-
+interface Race{
+  title: string,
+  author: string,
+  description: string,
+  date: Date,
+  startingPoint: LatLng,
+  distance: number
+}
 
 interface Place2{
   name: string,
