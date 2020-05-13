@@ -37,16 +37,16 @@ export class ProfilePage implements OnInit {
       
       this.http.get('/profile').subscribe( (profile: Profile) => { 
         this.userProfile.id = profile._id;
-        this.userProfile.username = profile.Username;
-        this.userProfile.email = profile.Email;
-        this.userProfile.history = profile.History;
+        this.userProfile.username = profile.username;
+        this.userProfile.email = profile.email;
+        this.userProfile.history = profile.history;
       });
     }
   
   }
   interface Profile {
     _id: string,
-    Username: string,
-    Email: string,
-    History: any[] //tipar
+    username: string,
+    email: string,
+    history: any[] //tipar
   }

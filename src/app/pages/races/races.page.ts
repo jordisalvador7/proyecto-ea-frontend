@@ -1,3 +1,4 @@
+import { Usermodel } from './../../models/user/usermodel';
 import { Placemodel } from './../../models/place/placemodel';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { HttpService } from 'src/app/services/http/http.service';
@@ -85,7 +86,8 @@ interface Race{
   description: string,
   date: Date,
   startingPoint: LatLng,
-  distance: number
+  distance: number,
+  subscribers: Usermodel
 }
 
 interface Place2{
