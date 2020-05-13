@@ -32,10 +32,13 @@
   <h5><b>Showing races up to {{distance}} meters from your current location</b></h5>
 
   <ion-list>
-   <ion-item *ngFor = "let place of places2">
-    <ion-label><b>Location:</b> {{place.name}}</ion-label>  
-    <ion-label><b>Long:</b> {{place.location.coordinates[0]}}</ion-label>
-    <ion-label><b>Lat:</b> {{place.location.coordinates[1]}}</ion-label>
+   <ion-item *ngFor = "let race of races">
+    <ion-label><b>Title:</b> {{race.title}}</ion-label>
+    <ion-label><b>Author:</b> {{race.author}}</ion-label>
+    <ion-label><b>Long:</b> {{race.startingPoint.coordinates[0]}}</ion-label>
+    <ion-label><b>Lat:</b> {{race.startingPoint.coordinates[1]}}</ion-label>
+    <ion-label><b>subs:</b> {{race.subscribers}}</ion-label>
+
       
   </ion-item>
   </ion-list>

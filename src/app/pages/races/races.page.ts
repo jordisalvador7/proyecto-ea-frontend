@@ -1,3 +1,4 @@
+import { Usermodel } from './../../models/user/usermodel';
 import { Placemodel } from './../../models/place/placemodel';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { HttpService } from 'src/app/services/http/http.service';
@@ -34,27 +35,40 @@ export class RacesPage implements OnInit {
     })
    }
 
-  place: Place[];
+  //place: Place[];
   places2: Place2[];
+  races: Race[];
   distance: string;
   latitude: number;
   longitude: number;
 
   ngOnInit(): void {
     this.getCurrentPosition();
-    this.http.get<Place2[]>('/races/places').subscribe(
+    /*this.http.get<Place2[]>('/races/places').subscribe(
       (places2:Place2[]) => {
         this.places2= places2;
         console.log(this.places2)
-        })
+        })*/
+    this.http.get<Race[]>('/races/races').subscribe(
+       (races:Race[]) => {
+            this.races= races;
+            console.log(this.races)
+            })
   }
 
   getNearPlaces(){
-    const url:string = '/races/places/nearest/'+ this.distance + '/' + this.latitude + '/' + this.longitude
+    /*const url:string = '/races/places/nearest/'+ this.distance + '/' + this.latitude + '/' + this.longitude
     this.http.get<Place2[]>(url).subscribe(
       (places2:Place2[]) => {
         this.places2= places2;
         console.log(this.places2)
+        })*/
+
+    const url:string = '/races/races/nearest/'+ this.distance + '/' + this.latitude + '/' + this.longitude
+    this.http.get<Race[]>(url).subscribe(
+      (races:Race[]) => {
+          this.races= races;
+          console.log(this.races)
         })
   }
 
@@ -66,10 +80,14 @@ export class RacesPage implements OnInit {
   }
 
 }
-interface Place{
-  name: string,
-  N: number,
-  E: number
+interface Race{
+  title: string,
+  author: string,
+  description: string,
+  date: Date,
+  startingPoint: LatLng,
+  distance: number,
+  subscribers: Usermodel
 }
 
 interface Place2{
