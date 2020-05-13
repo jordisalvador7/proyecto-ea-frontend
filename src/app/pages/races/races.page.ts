@@ -3,7 +3,12 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { HttpService } from 'src/app/services/http/http.service';
 import { Component, OnInit } from '@angular/core';
 import {Platform} from '@ionic/angular';
-import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Plugins } from '@capacitor/core';
+
+
+import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
+
+const { Geolocation } = Plugins;
 
 type placeProfile = {
   name: string,
@@ -32,8 +37,11 @@ export class RacesPage implements OnInit {
   place: Place[];
   places2: Place2[];
   distance: string;
+  latitude: number;
+  longitude: number;
 
   ngOnInit(): void {
+    this.getCurrentPosition();
     this.http.get<Place2[]>('/races/places').subscribe(
       (places2:Place2[]) => {
         this.places2= places2;
@@ -42,12 +50,19 @@ export class RacesPage implements OnInit {
   }
 
   getNearPlaces(){
-    const url:string = '/races/places/nearest/'+ this.distance
+    const url:string = '/races/places/nearest/'+ this.distance + '/' + this.latitude + '/' + this.longitude
     this.http.get<Place2[]>(url).subscribe(
       (places2:Place2[]) => {
         this.places2= places2;
         console.log(this.places2)
         })
+  }
+
+  async getCurrentPosition() {
+    const position = await Geolocation.getCurrentPosition();
+    this.latitude = position.coords.latitude;
+    this.longitude = position.coords.longitude;
+    console.log('Current', position);
   }
 
 }
@@ -59,7 +74,10 @@ interface Place{
 
 interface Place2{
   name: string,
-  location: {
+  location: LatLng
+}
 
-  }
+interface LatLng{
+  type: string,
+  coordinates: number
 }
