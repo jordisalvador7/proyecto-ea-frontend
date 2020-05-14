@@ -1,7 +1,8 @@
 {
   "name": "runnea",
   "integrations": {
-    "cordova": {}
+    "cordova": {},
+    "capacitor": {}
   },
   "type": "angular"
 }

@@ -23,6 +23,9 @@ const routes: Routes = [
   {
     path: 'map',
     loadChildren: () => import('./pages/map/map.module').then( m => m.MapPageModule)
+  },  {
+    path: 'socket',
+    loadChildren: () => import('./pages/socket/socket.module').then( m => m.SocketPageModule)
   }
 
 
