@@ -9,5 +9,5 @@ export class Racemodel {
 
 interface LatLng{
     type: string,
-    coordinates: number
+    coordinates: number[]
   }

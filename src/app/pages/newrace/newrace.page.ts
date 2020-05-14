@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Map, PointTuple, map, tileLayer, marker, Marker } from 'leaflet';
+import { Map, PointTuple, map, tileLayer, marker, Marker, LatLng } from 'leaflet';
+
 import 'leaflet-routing-machine';
 import { Platform } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { delay } from 'rxjs/operators';
 import { HttpService } from 'src/app/services/http/http.service';
+import { Racemodel} from 'src/app/models/race/racemodel';
 
 @Component({
   selector: 'app-newrace',
@@ -13,7 +15,7 @@ import { HttpService } from 'src/app/services/http/http.service';
 })
 
 export class NewracePage implements OnInit {
-
+  
   lat:any='41.27555556'
   lng:any='1.98694444'
 
@@ -21,6 +23,8 @@ export class NewracePage implements OnInit {
   center: PointTuple;
   startCoords: PointTuple = [this.lat, this.lng];
   startMarker: Marker;
+
+  newRace: Racemodel;
 
   constructor(
     private http: HttpService,
@@ -30,10 +34,25 @@ export class NewracePage implements OnInit {
     this.center = this.startCoords;
     this.platform.ready().then(() =>
     {
+      console.log("platform ready");
       this.leafletMap();
+
     })
   }
   ngOnInit(){
+    this.newRace = {
+      title: '',
+      author: '',
+      date: new Date(),
+      description:'',
+      distance: 0,
+      startingPoint: {
+        coordinates: [this.lat, this.lng],
+        type: ''
+      }
+    }
+
+    this.leafletMap();
   }
   leafletMap()
   {
@@ -48,15 +67,26 @@ export class NewracePage implements OnInit {
     }).addTo(this.map);
 
     this.startMarker = marker(this.startCoords, {draggable: true}).addTo(this.map)
-      .bindPopup('Ionic <br> Leaflet.')
+      .bindPopup('Starting point')
       .on('dragend', function() {
-        this.startMarker.bindPopup('Starting Point <br>' + String(this.startMarker.getLatLng()));
+        console.log("dragged");
+        //console.log(this);
+        //this.startMarker.bindPopup('Starting Point <br>' + String(this.startMarker.getLatLng()));
       });
    
   }
 
-  save(){
-    this.http.post('/races',)
+  async save(){
+    console.log(this.newRace);
+    const coord :LatLng = this.startMarker.getLatLng();
+    this.newRace.startingPoint.coordinates[0] = coord.lat;
+    this.newRace.startingPoint.coordinates[1] = coord.lng;
+    this.newRace.date = new Date();
+    console.log(this.newRace);
+    //const res = await this.http.post('/races', this.newRace);
+    this.http.post('/races', this.newRace).subscribe(( res => { console.log(res) }));
+    console.log("posted");
+    //console.log(res);
   }
 
   async getLocation(){
@@ -80,4 +110,8 @@ export class NewracePage implements OnInit {
             });
   }
  
+}
+interface LatLng2{
+  type: string,
+  coordinates: number
 }
