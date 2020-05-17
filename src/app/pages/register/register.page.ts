@@ -9,9 +9,9 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class RegisterPage implements OnInit {
   registerDto: IRegisterDto = {
-    Username: '',
-    Email: '',
-    Password: ''
+    username: '',
+    email: '',
+    password: ''
   }
   constructor(private authService: AuthService,) { }
 

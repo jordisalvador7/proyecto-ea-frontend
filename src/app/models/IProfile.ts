@@ -1,6 +1,6 @@
 export interface IProfile {
     _id: string,
-    Username: string,
-    Email: string,
-    History: any[] //tipar
+    username: string,
+    email: string,
+    history: any[] //tipar
   }
