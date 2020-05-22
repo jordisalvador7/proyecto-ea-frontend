@@ -78,13 +78,11 @@ export class MapPage {
   async getNearPlaces(){
     const url:string = '/races/races/nearest/'+ this.distance + '/' + this.latitude + '/' + this.longitude
     this.map.remove();
-    this.map = new Map('mapId').setView([this.latitude, this.longitude], 15);
+    this.map = new Map('mapId').setView([this.latitude, this.longitude], 10);
     tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
       attribution: 'edupala.com © ionic LeafLet',
     }).addTo(this.map);
-    marker([this.latitude, this.longitude]).addTo(this.map)
-    .bindPopup('Your Location')
-    .openPopup();
+    
     this.http.get<Racemodel[]>(url).subscribe(
       (races:Racemodel[]) => {
         this.races= races;
@@ -96,6 +94,9 @@ export class MapPage {
 
         }
       })
+      marker([this.latitude, this.longitude]).addTo(this.map)
+    .bindPopup('Your Location')
+    .openPopup();
   }
 }
 
