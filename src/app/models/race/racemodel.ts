@@ -4,7 +4,7 @@ export class Racemodel {
         description: string;
         date: Date;
         startingPoint: LatLng;
-        distance: number
+        distance: number;
 }
 
 interface LatLng{

@@ -27,22 +27,14 @@ export class ProfilePage implements OnInit {
   constructor(private http: HttpService, private authService:AuthService) { }
   
   ngOnInit() {
-
-    // this.http.get('/profile').pipe(map(profile => {
-    //     this.userProfile.id = profile['_id'];
-    //     this.userProfile.username = profile['Username'];
-    //     this.userProfile.email = profile['Email'];
-    //     this.userProfile.history = profile['History'];
-    //   })).subscribe();
-      
-      this.http.get('/profile').subscribe( (profile: Profile) => { 
+        this.http.get('/profile').subscribe( (profile: Profile) => { 
         this.userProfile.id = profile._id;
         this.userProfile.username = profile.username;
         this.userProfile.email = profile.email;
         this.userProfile.history = profile.history;
       });
     }
-  
+
   }
   interface Profile {
     _id: string,

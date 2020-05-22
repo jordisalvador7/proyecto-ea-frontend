@@ -1,3 +1,4 @@
+import { Racemodel } from './../../models/race/racemodel';
 import { Usermodel } from './../../models/user/usermodel';
 import { Placemodel } from './../../models/place/placemodel';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -11,11 +12,6 @@ import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
 
 const { Geolocation } = Plugins;
 
-type placeProfile = {
-  name: string,
-  N: number,
-  E: number
-}
 
 @Component({
   selector: 'app-races',
@@ -35,38 +31,24 @@ export class RacesPage implements OnInit {
     })
    }
 
-  //place: Place[];
-  places2: Place2[];
-  races: Race[];
+  races: Racemodel[];
   distance: string;
   latitude: number;
   longitude: number;
 
   ngOnInit(): void {
     this.getCurrentPosition();
-    /*this.http.get<Place2[]>('/races/places').subscribe(
-      (places2:Place2[]) => {
-        this.places2= places2;
-        console.log(this.places2)
-        })*/
-    this.http.get<Race[]>('/races/races').subscribe(
-       (races:Race[]) => {
+    this.http.get<Racemodel[]>('/races/races').subscribe(
+       (races:Racemodel[]) => {
             this.races= races;
             console.log(this.races)
             })
   }
 
   getNearPlaces(){
-    /*const url:string = '/races/places/nearest/'+ this.distance + '/' + this.latitude + '/' + this.longitude
-    this.http.get<Place2[]>(url).subscribe(
-      (places2:Place2[]) => {
-        this.places2= places2;
-        console.log(this.places2)
-        })*/
-
     const url:string = '/races/races/nearest/'+ this.distance + '/' + this.latitude + '/' + this.longitude
-    this.http.get<Race[]>(url).subscribe(
-      (races:Race[]) => {
+    this.http.get<Racemodel[]>(url).subscribe(
+      (races:Racemodel[]) => {
           this.races= races;
           console.log(this.races)
         })
@@ -79,23 +61,4 @@ export class RacesPage implements OnInit {
     console.log('Current', position);
   }
 
-}
-interface Race{
-  title: string,
-  author: string,
-  description: string,
-  date: Date,
-  startingPoint: LatLng,
-  distance: number,
-  subscribers: Usermodel
-}
-
-interface Place2{
-  name: string,
-  location: LatLng
-}
-
-interface LatLng{
-  type: string,
-  coordinates: number
 }

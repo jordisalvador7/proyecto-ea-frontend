@@ -1,17 +1,24 @@
 <ion-header>
   <ion-toolbar>
     <ion-title class="ion-text-center">
-     MAP VIEW
-     <ion-button href="/races" color = "success" size = "small" shape = "round">Switch to List View <ion-icon name="list"></ion-icon></ion-button>
     </ion-title>
+      <ion-buttons slot="start">        
+        <ion-back-button defaultHref="/profile"></ion-back-button>
+      </ion-buttons>    
+      <ion-buttons slot = "end">
+        <ion-button (click)="getCurrentPosition()"  shape = "round"><ion-icon name="location-sharp" color = "primary" size= "large"></ion-icon></ion-button>
+        <ion-button href="/races" shape = "round"><ion-icon name="list" size= "large" color = "primary"></ion-icon></ion-button>
+        <ion-button href="/profile" shape = "round"><ion-icon name="person-circle-outline" size = "large" color = "primary"></ion-icon></ion-button>
+      </ion-buttons>
+    
   </ion-toolbar>
 </ion-header>
 
 <div id = "container"> 
-  <ion-button (click)="getCurrentPosition()" shape = "round">Go To Your Location<ion-icon name="location-sharp" slot ="end" color = "danger" size = "large"></ion-icon></ion-button>
+ 
 </div>
 <ion-item>
-  <ion-range [(ngModel)]= "distance" min="100" max="100000" color="success" pin="true" (ionChange) = "getNearPlaces()">      
+  <ion-range [(ngModel)]= "distance"  min="100" max="100000" color="success" pin="true" (ionChange) = "getNearPlaces()">      
     <ion-icon name="location-sharp" slot = "start" size= "small" color = "danger"></ion-icon>
     <ion-icon name="location-sharp" slot ="end" color = "danger" size = "large"></ion-icon>
   </ion-range>

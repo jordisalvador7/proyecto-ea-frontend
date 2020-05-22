@@ -1,9 +1,9 @@
+import { Racemodel } from './../../models/race/racemodel';
 import { Component } from '@angular/core';
 import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
 import { HttpService } from 'src/app/services/http/http.service';
 import 'leaflet-routing-machine';
 import { Platform } from '@ionic/angular';
-//import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Plugins } from '@capacitor/core';
 
 
@@ -21,7 +21,6 @@ export class MapPage {
   distance: string;
 
   map: Map;
-  //center: PointTuple;
   startCoords = [this.latitude, this.longitude];
 
   constructor(private http:HttpService, public platform:Platform)  { 
@@ -29,22 +28,24 @@ export class MapPage {
     this.distance = '100000';
   }) }
 
-  places2: Place2[];
-  races: Race[];
+  races: Racemodel[];
 
   ionViewDidEnter() { 
     this.leafletMap();
-    this.http.get<Race[]>('/races/races').subscribe(
-      (races:Race[]) => {
+    this.http.get<Racemodel[]>('/races/races').subscribe(
+      (races:Racemodel[]) => {
         this.races= races;
-        console.log((this.places2))
+        console.log((this.races))
         for (let i=0; i<races.length; i++){
           marker([races[i].startingPoint.coordinates[1], races[i].startingPoint.coordinates[0]]).addTo(this.map)
       .bindPopup(races[i].title)
       .openPopup();
-
         }
+        marker([this.latitude, this.longitude]).addTo(this.map)
+      .bindPopup('Your Location')
+      .openPopup();
       })
+      //this.map.setView([this.latitude, this.longitude], 15);
   }
 
   async leafletMap()
@@ -53,13 +54,10 @@ export class MapPage {
     this.latitude = position.coords.latitude;
     this.longitude = position.coords.longitude;
     console.log('Current', position);
-    this.map = new Map('mapId').setView([this.latitude, this.longitude], 15);
+    this.map = new Map('mapId').setView([this.latitude, this.longitude], 10);
     tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
       attribution: 'edupala.com © ionic LeafLet',
     }).addTo(this.map);
-    marker([this.latitude, this.longitude]).addTo(this.map)
-      .bindPopup('Your Location')
-      .openPopup();
   }
 
 
@@ -87,8 +85,8 @@ export class MapPage {
     marker([this.latitude, this.longitude]).addTo(this.map)
     .bindPopup('Your Location')
     .openPopup();
-    this.http.get<Race[]>(url).subscribe(
-      (races:Race[]) => {
+    this.http.get<Racemodel[]>(url).subscribe(
+      (races:Racemodel[]) => {
         this.races= races;
         console.log((this.races))
         for (let i=0; i<races.length; i++){
@@ -101,21 +99,4 @@ export class MapPage {
   }
 }
 
-interface Race{
-  title: string,
-  author: string,
-  description: string,
-  date: Date,
-  startingPoint: LatLng,
-  distance: number
-}
 
-interface Place2{
-  name: string,
-  location: LatLng
-}
-
-interface LatLng{
-  type: string,
-  coordinates: number
-}
