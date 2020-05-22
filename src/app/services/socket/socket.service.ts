@@ -6,22 +6,19 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class SocketService {
-  private url = 'http://localhost:3001/races';
+  private baseUrl = 'http://localhost:3001';
   private socket;    
 
-  constructor() { 
-    this.socket = io(this.url);
+  constructor() {
+  }
+  
+  public connect(endPoint: string) {
+    const url: string = `${this.baseUrl}/${endPoint}` ;
+    this.socket = io(url);
   }
 
   public sendMessage(message) {
     this.socket.emit('chatMessage', message);
-  }
-
-  public connect() {
-    // this.socket.on('notify', (msg) => {
-    //   console.log(`Notify! ${msg}`);
-    // });
-    // this.socket.on('message', (msg) => console.log(`${msg}`));
   }
 
   public joinRoom(room: string, username: string) {
@@ -35,12 +32,13 @@ export class SocketService {
         });
     });
   }
+  
   public getNotifications = () => {
     return Observable.create(_ => {
         this.socket.on('notify', (message) => {
             _.next(message);
         });
-    });
+    }); 
   }
 }
 
