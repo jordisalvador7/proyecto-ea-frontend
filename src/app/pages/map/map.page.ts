@@ -38,14 +38,13 @@ export class MapPage {
         console.log((this.races))
         for (let i=0; i<races.length; i++){
           marker([races[i].startingPoint.coordinates[1], races[i].startingPoint.coordinates[0]]).addTo(this.map)
-      .bindPopup(races[i].title)
+      .bindPopup('<b>' + races[i].title + '</b>' + '<br>' + races[i].distance + 'km')
       .openPopup();
         }
         marker([this.latitude, this.longitude]).addTo(this.map)
-      .bindPopup('Your Location')
+      .bindPopup('<b> You are here </b>')
       .openPopup();
       })
-      //this.map.setView([this.latitude, this.longitude], 15);
   }
 
   async leafletMap()
@@ -71,7 +70,7 @@ export class MapPage {
       attribution: 'edupala.com © ionic LeafLet',
     }).addTo(this.map);
     marker([this.latitude, this.longitude]).addTo(this.map)
-      .bindPopup('Your Location')
+      .bindPopup('<b> You are here </b>')
       .openPopup();
   }
 
@@ -89,13 +88,13 @@ export class MapPage {
         console.log((this.races))
         for (let i=0; i<races.length; i++){
           marker([races[i].startingPoint.coordinates[1], races[i].startingPoint.coordinates[0]]).addTo(this.map)
-      .bindPopup(races[i].title)
+      .bindPopup('<b>' + races[i].title + '</b>' + '<br>' + races[i].distance + 'km')
       .openPopup();
 
         }
       })
       marker([this.latitude, this.longitude]).addTo(this.map)
-    .bindPopup('Your Location')
+    .bindPopup('<b> You are here </b>')
     .openPopup();
   }
 }
