@@ -15,6 +15,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { SocketService } from './services/socket/socket.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,6 +25,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
     Geolocation,
     StatusBar,
     SplashScreen,
+    SocketService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
