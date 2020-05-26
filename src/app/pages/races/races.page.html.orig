@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-back-button></ion-back-button>
+    <ion-title class="ion-text-center">RUNNEA</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/profile"></ion-back-button>      
+  </ion-buttons>
+    
+  <ion-buttons slot = "end">
+    <ion-button href="/map" shape = "round"><ion-icon name="map-sharp" size = "large" color = "primary"></ion-icon></ion-button>
+    <ion-button href="/profile" shape = "round"><ion-icon name="person-circle-outline" size = "large" color = "primary"></ion-icon></ion-button>
+  </ion-buttons>
+     
+    
+       
+  </ion-toolbar>
+</ion-header>
+
+<ion-content id = "container">
+  <hr>
+  
+     <div class>
+      <h3><b>DISTANCE SELECTOR</b></h3>
+     </div>
+
+    <ion-item>
+      <ion-label><b>Your location is </b></ion-label>
+      <ion-label><b>Long:</b> {{this.longitude}}</ion-label>
+      <ion-label><b>Lat:</b> {{this.latitude}}</ion-label>  
+    </ion-item>
+    
+  <ion-item>
+    <ion-range [(ngModel)]= "distance" min="100" max="100000" color="success" pin="true" (ionChange) = "getNearPlaces()">      
+      <ion-icon name="location-sharp" slot = "start" size= "small" color = "danger"></ion-icon>
+      <ion-icon name="location-sharp" slot ="end" color = "danger" size = "large"></ion-icon>
+    </ion-range>
+  </ion-item>
+  
+  <h5><b>Showing races up to {{distance}} meters from your current location</b></h5>
+
+  <ion-list>
+   <ion-item *ngFor = "let race of races">
+    <ion-label><b>Title:</b> {{race.title}}</ion-label>
+    <ion-label><b>Author:</b> {{race.author}}</ion-label>
+<<<<<<< HEAD
+    <ion-label><b>Long:</b> {{race.startingPoint.coordinates[0]}}</ion-label>
+    <ion-label><b>Lat:</b> {{race.startingPoint.coordinates[1]}}</ion-label>
+    <ion-label><b>subs:</b> {{race.subscribers}}</ion-label>
+    <ion-button><b>Subscribe</b></ion-button>
+
+      
+=======
+    <ion-label><b>Distance:</b>{{race.distance}} km</ion-label>     
+>>>>>>> 57cfd1d6f74590eb64affbbb14748dab483ed474
+  </ion-item>
+  </ion-list>
+
+  
+</ion-content>
+

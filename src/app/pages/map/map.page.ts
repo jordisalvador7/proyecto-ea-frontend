@@ -49,11 +49,25 @@ export class MapPage {
 
   async leafletMap()
   {
-    const position = await Geolocation.getCurrentPosition();
-    this.latitude = position.coords.latitude;
-    this.longitude = position.coords.longitude;
-    console.log('Current', position);
-    this.map = new Map('mapId').setView([this.latitude, this.longitude], 10);
+    this.map = new Map('mapId');
+    try{
+      const position = await Geolocation.getCurrentPosition();
+      
+      if(position.coords.latitude == undefined || position.coords.longitude == undefined){
+        this.latitude = 41.27555556;
+        this.longitude = 1.98694444;
+      }
+      else{
+        this.latitude = position.coords.latitude;
+        this.longitude = position.coords.longitude;
+      }
+    }
+    catch(err){
+      console.log(err);
+      this.latitude = 41.27555556;
+      this.longitude = 1.98694444;
+    }
+    this.map.setView([this.latitude, this.longitude], 10);
     tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
       attribution: 'edupala.com © ionic LeafLet',
     }).addTo(this.map);
