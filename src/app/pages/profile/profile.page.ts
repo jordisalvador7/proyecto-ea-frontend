@@ -43,7 +43,7 @@ export class ProfilePage implements OnInit {
         this.userProfile.history = profile.history;
       });
     }
-  
+
   }
   interface Profile {
     _id: string,

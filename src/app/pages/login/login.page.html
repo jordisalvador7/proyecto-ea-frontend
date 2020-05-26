@@ -1,7 +1,10 @@
 <ion-header>
   <ion-toolbar>
     <ion-title class="ion-text-center">LOG IN</ion-title>
-    <ion-back-button></ion-back-button>
+    <ion-buttons slot="start">
+        <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    
   </ion-toolbar>
 </ion-header>
 
@@ -10,17 +13,16 @@
 
     <ion-item>
       <ion-label position="stacked">Username</ion-label>
-      <ion-input autocomplete = "off" name = "username" type="text" [(ngModel)]="loginDto.username" required></ion-input>
+      <ion-input autocomplete = "off" name = "username" type="text" [(ngModel)]="loginDto.username" required (keyup.enter)="loginAction()"></ion-input>
     </ion-item>
   
     <ion-item>    
       <ion-label position="stacked">Password</ion-label>
-      <ion-input autocomplete = "off" name = "password" type="password" [(ngModel)]="loginDto.password" required></ion-input>
+      <ion-input autocomplete = "off" name = "password" type="password" [(ngModel)]="loginDto.password" required (keyup.enter)="loginAction()"></ion-input>
     </ion-item>
   
-    
-        <ion-button expand ="block" shape="round" type="submit" color="success" (click)="loginAction()">Log In</ion-button>
-        <a [routerLink]="['/forgot-password']" class="small-text">Forgot Password?</a>
-      
+    <div id ="container">
+        <ion-button shape="round" type="submit" color="success" (click)="loginAction()" size = "large">Log In</ion-button>
+    </div>      
     </form>
 </ion-content>

@@ -1,9 +1,16 @@
 <ion-header>
   <ion-toolbar>
     <ion-back-button></ion-back-button>
-    <ion-title class="ion-text-center">RACES SEARCHER</ion-title>
+    <ion-title class="ion-text-center">RUNNEA</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/profile"></ion-back-button>      
+  </ion-buttons>
     
-    <ion-button href="/map" color = "success" size = "small" shape = "round">Switch to Map View <ion-icon name="map-sharp"></ion-icon></ion-button> 
+  <ion-buttons slot = "end">
+    <ion-button href="/map" shape = "round"><ion-icon name="map-sharp" size = "large" color = "primary"></ion-icon></ion-button>
+    <ion-button href="/profile" shape = "round"><ion-icon name="person-circle-outline" size = "large" color = "primary"></ion-icon></ion-button>
+  </ion-buttons>
+     
     
        
   </ion-toolbar>
@@ -35,11 +42,7 @@
    <ion-item *ngFor = "let race of races">
     <ion-label><b>Title:</b> {{race.title}}</ion-label>
     <ion-label><b>Author:</b> {{race.author}}</ion-label>
-    <ion-label><b>Long:</b> {{race.startingPoint.coordinates[0]}}</ion-label>
-    <ion-label><b>Lat:</b> {{race.startingPoint.coordinates[1]}}</ion-label>
-    <ion-label><b>subs:</b> {{race.subscribers}}</ion-label>
-
-      
+    <ion-label><b>Distance:</b>{{race.distance}} km</ion-label>     
   </ion-item>
   </ion-list>
 
