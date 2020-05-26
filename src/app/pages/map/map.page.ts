@@ -7,7 +7,7 @@ import { Platform } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
 
 
-// const { Geolocation } = Plugins;
+const { Geolocation } = Plugins;
 
 @Component({
   selector: 'app-map',
