@@ -37,6 +37,7 @@
     "leaflet": "^1.6.0",
     "leaflet-routing-machine": "^3.2.12",
     "rxjs": "~6.5.5",
+    "socket.io-client": "^2.3.0",
     "tslib": "^1.11.1",
     "zone.js": "~0.10.3"
   },
