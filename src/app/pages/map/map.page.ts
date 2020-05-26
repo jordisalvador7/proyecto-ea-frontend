@@ -5,6 +5,8 @@ import { HttpService } from 'src/app/services/http/http.service';
 import 'leaflet-routing-machine';
 import { Platform } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
+//import { Geolocation } from '@ionic-native/geolocation/ngx';
+import 'leaflet-routing-machine';
 
 
 const { Geolocation } = Plugins;
@@ -81,7 +83,7 @@ export class MapPage {
     tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
       attribution: 'edupala.com © ionic LeafLet',
     }).addTo(this.map);
-    
+
     this.http.get<Racemodel[]>(url).subscribe(
       (races:Racemodel[]) => {
         this.races= races;
