@@ -9,40 +9,48 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class LocationService {
 
 
-  headers: HttpHeaders;
+  private headers: HttpHeaders;
   constructor(private http: HttpClient) { 
     this.headers = new HttpHeaders({
       'Content-Type':  'application/json',
+      'Access-Control-Allow-Origin': '*',
       returnType: 'json'
     });
   }
 
-  async get():Promise<GeolocationPosition> {
-    let position:GeolocationPosition;
+  public getLocation = async ():Promise<GeolocationPosition> => {
+    let lat:number;
+    let lon:number;
+    
     try{
-      position = await Geolocation.getCurrentPosition();
-      return position;
+      //la de la uni
+      lat = 41.27555556;
+      lon = 1.98694444;
+      //intenta por ip
+      const location = await this.http.get<any>(`http://ip-api.com/json/`, { headers: this.headers }).toPromise();
+      console.log(location);
+      if(location.status == 'success'){
+        lat = location.lat;
+        lon = location.lon;
+      }
+      //intenta por gps
+      // const position = await Geolocation.getCurrentPosition();
+      // console.log(position);
+      // lat = position.coords.latitude;
+      // lon = position.coords.longitude;
+        
     }
     catch(err){
       console.log(err);
-      try{
-        this.http.get<any>(`http://ip-api.com/json/`, { headers: this.headers }).subscribe(
-          (location:any) => {
-            console.log(location);
-            //pasar los datos al formato que toca
-            //return position;
-          })
-        }
-        catch(err){
-          console.log(err);
-        }
     }
-
-    
-    //y si ni asi puede pues la de la uni
-    position.coords.latitude = 41.27555556;
-    position.coords.longitude = 1.98694444;
-
-    return position;
+    finally{
+      let position:GeolocationPosition = Object({
+        coords:{
+          latitude: lat,
+          longitude: lon
+        }
+      });
+      return position;
+    }
   }
 }

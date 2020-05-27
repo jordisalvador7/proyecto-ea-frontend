@@ -5,6 +5,7 @@ import { HttpService } from 'src/app/services/http/http.service';
 import 'leaflet-routing-machine';
 import { Platform } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
+import { LocationService } from 'src/app/services/location/location.service';
 
 
 const { Geolocation } = Plugins;
@@ -23,7 +24,7 @@ export class MapPage {
   map: Map;
   startCoords = [this.latitude, this.longitude];
 
-  constructor(private http:HttpService, public platform:Platform)  { 
+  constructor(private http:HttpService, public platform:Platform, private location:LocationService)  { 
     this.platform.ready().then(() => {
     this.distance = '100000';
   }) }
@@ -50,36 +51,25 @@ export class MapPage {
   async leafletMap()
   {
     this.map = new Map('mapId');
-    try{
-      const position = await Geolocation.getCurrentPosition();
-      
-      if(position.coords.latitude == undefined || position.coords.longitude == undefined){
-        this.latitude = 41.27555556;
-        this.longitude = 1.98694444;
-      }
-      else{
-        this.latitude = position.coords.latitude;
-        this.longitude = position.coords.longitude;
-      }
-    }
-    catch(err){
-      console.log(err);
-      this.latitude = 41.27555556;
-      this.longitude = 1.98694444;
-    }
+    const position = await this.location.getLocation();
+    
+    
+    this.latitude = position.coords.latitude;
+    this.longitude = position.coords.longitude;
     this.map.setView([this.latitude, this.longitude], 10);
     tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
       attribution: 'edupala.com © ionic LeafLet',
     }).addTo(this.map);
+    this.getCurrentPosition();
   }
 
 
   async getCurrentPosition() {
-    const position = await Geolocation.getCurrentPosition();
+    const position = await this.location.getLocation();
     this.latitude = position.coords.latitude;
     this.longitude = position.coords.longitude;
     console.log('Current', position);
-    this.map.setView([this.latitude, this.longitude], 15);
+    this.map.setView([this.latitude, this.longitude], 12);
     tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
       attribution: 'edupala.com © ionic LeafLet',
     }).addTo(this.map);

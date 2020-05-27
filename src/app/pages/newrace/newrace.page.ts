@@ -8,6 +8,7 @@ import { delay } from 'rxjs/operators';
 import { HttpService } from 'src/app/services/http/http.service';
 import { Racemodel} from 'src/app/models/race/racemodel';
 import { Router } from '@angular/router';
+import { LocationService } from 'src/app/services/location/location.service';
 
 @Component({
   selector: 'app-newrace',
@@ -31,15 +32,14 @@ export class NewracePage implements OnInit {
     private http: HttpService,
     public platform: Platform,
     private geolocation: Geolocation,
+    private location: LocationService,
     private router: Router) 
   {
     this.center = this.startCoords;
-    this.platform.ready().then(() =>
-    {
-      console.log("platform ready");
-      this.leafletMap();
-
-    })
+    
+  }
+  async ionViewDidEnter(){
+    await this.leafletMap();
   }
   ngOnInit(){
     this.newRace = {
@@ -53,22 +53,22 @@ export class NewracePage implements OnInit {
         type: ''
       }
     }
-
-    this.leafletMap();
   }
-  leafletMap()
+  async leafletMap()
   {
     this.map = map('mapId', 
     {
       center: this.center,
       zoom: 15
     });
-
-    tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    const position = await this.location.getLocation();
+    console.log('Current', position);
+    this.map.setView([position.coords.latitude, position.coords.longitude], 12);
+    tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
       attribution: '', 
     }).addTo(this.map);
 
-    this.startMarker = marker(this.startCoords, {draggable: true}).addTo(this.map)
+    this.startMarker = marker([position.coords.latitude, position.coords.longitude], {draggable: true}).addTo(this.map)
       .bindPopup('Starting point')
       .on('dragend', function() {
         console.log("dragged");
@@ -92,30 +92,4 @@ export class NewracePage implements OnInit {
       console.log("posted");
     }));
   }
-
-  async getLocation(){
-    this.geolocation.getCurrentPosition(
-      {maximumAge: 1000, timeout: 5000,
-       enableHighAccuracy: true }
-      ).then((resp) => {
-            // resp.coords.latitude
-            // resp.coords.longitude
-            //alert("r succ"+resp.coords.latitude)
-            alert(JSON.stringify( resp.coords));
-      
-            this.lat=resp.coords.latitude
-            this.lng=resp.coords.longitude
-            },er=>{
-              //alert("error getting location")
-              alert('Can not retrieve Location')
-            }).catch((error) => {
-            //alert('Error getting location'+JSON.stringify(error));
-            alert('Error getting location - '+JSON.stringify(error))
-            });
-  }
- 
-}
-interface LatLng2{
-  type: string,
-  coordinates: number
 }
