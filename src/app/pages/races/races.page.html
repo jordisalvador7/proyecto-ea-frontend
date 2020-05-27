@@ -30,7 +30,7 @@
     </ion-item>
     
   <ion-item>
-    <ion-range [(ngModel)]= "distance" min="100" max="100000" color="success" pin="true" (ionChange) = "getNearPlaces()">      
+    <ion-range [(ngModel)]= "distance" min="100" max="100000" color="success" pin="true" (mouseup) = "getNearPlaces()">      
       <ion-icon name="location-sharp" slot = "start" size= "small" color = "danger"></ion-icon>
       <ion-icon name="location-sharp" slot ="end" color = "danger" size = "large"></ion-icon>
     </ion-range>
@@ -42,7 +42,22 @@
    <ion-item *ngFor = "let race of races">
     <ion-label><b>Title:</b> {{race.title}}</ion-label>
     <ion-label><b>Author:</b> {{race.author}}</ion-label>
-    <ion-label><b>Distance:</b>{{race.distance}} km</ion-label>     
+    <ion-label><b>Distance:</b>{{race.distance}} km</ion-label>
+    <ion-label><b>Subscribers:</b> 
+      <div *ngFor = "let sub of race.subscribers">
+        {{sub.username}}
+      </div>
+    </ion-label>
+    <div *ngIf = "!AmISubscribed(race); else unsub">
+      <ion-button shape = "round" (click)="Subscribe(race)">
+        <b>Subscribe</b>
+      </ion-button>
+    </div>
+    <ng-template #unsub>
+      <ion-button shape = "round" (click)="Unsubscribe(race)">
+        <b>Unsubscribe</b>
+      </ion-button>
+    </ng-template>
   </ion-item>
   </ion-list>
 

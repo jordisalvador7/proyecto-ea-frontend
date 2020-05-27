@@ -9,13 +9,24 @@ import { API_URL } from 'src/environments/custom';
 })
 export class HttpService {
   private URL: string;
-  private headers: HttpHeaders;
+  public headers: HttpHeaders;
 
   constructor(private http: HttpClient, private storage: StorageService) { 
     this.URL = API_URL;
     this.setOptions();
-    }
-
+    console.log("constructor http headers:", this.headers);
+    
+     
+  }
+  async setOptionsAsync(){
+    const token = await this.storage.retrieveToken();
+    this.headers = new HttpHeaders({
+      'Content-Type':  'application/json',
+      'auth-token': String(token),
+      returnType: 'json'
+    });
+  }
+  
   setOptions = () => { 
     this.storage.retrieveToken().then(authToken => { 
       this.headers = new HttpHeaders({
@@ -23,11 +34,14 @@ export class HttpService {
         'auth-token': String(authToken),
         returnType: 'json'
       });
+
     })
   }
 
-  get = <TResponse>(endpoint: string): Observable<TResponse> =>
-    this.http.get<TResponse>(`${this.URL}${endpoint}`, { headers: this.headers });
+  get = <TResponse>(endpoint: string): Observable<TResponse> => {
+     
+    return this.http.get<TResponse>(`${this.URL}${endpoint}`, { headers: this.headers });
+  }
 
   // get = (endpoint: string) => {
   //   this.http.get(`${this.URL}${endpoint}`, { headers: this.headers })

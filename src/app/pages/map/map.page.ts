@@ -33,7 +33,8 @@ export class MapPage {
 
   races: Racemodel[];
 
-  ionViewDidEnter() { 
+  async ionViewDidEnter() { 
+    await this.http.setOptionsAsync();
     this.leafletMap();
     this.http.get<Racemodel[]>('/races/races').subscribe(
       (races:Racemodel[]) => {

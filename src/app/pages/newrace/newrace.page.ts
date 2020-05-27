@@ -40,7 +40,8 @@ export class NewracePage implements OnInit {
   async ionViewDidEnter(){
     await this.leafletMap();
   }
-  ngOnInit(){
+  async ngOnInit(){
+    await this.http.setOptionsAsync();
     this.newRace = {
       title: '',
       author: '',
@@ -50,7 +51,8 @@ export class NewracePage implements OnInit {
       startingPoint: {
         coordinates: [this.lat, this.lng],
         type: ''
-      }
+      },
+      subscribers: []
     }
   }
   async leafletMap()
