@@ -9,6 +9,7 @@ import { Plugins } from '@capacitor/core';
 
 
 import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
+import { SocketService } from 'src/app/services/socket/socket.service';
 
 const { Geolocation } = Plugins;
 
@@ -24,17 +25,20 @@ export class RacesPage implements OnInit {
     private http:HttpService,
     private authService:AuthService,
     public platform:Platform,
+    private socketService: SocketService
     )
     {
     this.platform.ready().then(() => {
       this.distance = '100000';
     })
    }
-
+  messages: string[] = [];
+  message: string;
   races: Racemodel[];
   distance: string;
   latitude: number;
   longitude: number;
+
 
   ngOnInit(): void {
     this.getCurrentPosition();
@@ -42,7 +46,22 @@ export class RacesPage implements OnInit {
        (races:Racemodel[]) => {
             this.races= races;
             console.log(this.races)
-            })
+            });
+      this.socketService.connect('races');
+      this.socketService.joinRoom('default', 'username');
+      this.socketService
+        .getMessages()
+        .subscribe((message: string) => {
+          this.messages.push(message);
+          console.log(message);
+        });
+      this.socketService
+        .getNotifications()
+        .subscribe((message: string) => {
+      this.messages.push(message);
+      console.log(`!Notify! ${message}`);
+          });
+            
   }
 
   getNearPlaces(){
@@ -59,6 +78,14 @@ export class RacesPage implements OnInit {
     this.latitude = position.coords.latitude;
     this.longitude = position.coords.longitude;
     console.log('Current', position);
+  }
+
+  sendMessage() {
+    this.socketService.sendMessage(this.message);
+    let  date: string = new Date().toLocaleTimeString();
+    this.message = `${date} ME: ${this.message}`;
+    this.messages.push(this.message);
+    this.message = "";
   }
 
 }

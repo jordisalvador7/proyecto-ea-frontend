@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SocketService } from 'src/app/services/socket/socket.service';
 
 @Component({
   selector: 'app-chat',
@@ -7,8 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChatComponent implements OnInit {
 
-  constructor() { }
+  constructor(private socketService: SocketService) { }
 
-  ngOnInit() {}
+  messages: string[] = [];
+  ngOnInit() {
+
+  }
 
 }

@@ -36,6 +36,7 @@ export class SocketService {
   public getNotifications = () => {
     return Observable.create(_ => {
         this.socket.on('notify', (message) => {
+          console.log(message);
             _.next(message);
         });
     }); 
