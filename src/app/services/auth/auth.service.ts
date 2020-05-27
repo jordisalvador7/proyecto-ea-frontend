@@ -39,6 +39,7 @@ export class AuthService {
   }
 
   login = (dto: ILoginDto) => {
+    console.log('Login IN');
     this.http.post(`${this.URL}/login`, dto, { headers: this.header })
     .subscribe(res => {
       const token: string = res['auth-token'];
