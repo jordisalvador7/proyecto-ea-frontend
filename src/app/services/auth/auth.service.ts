@@ -32,9 +32,13 @@ export class AuthService {
 
   register = (dto: IRegisterDto) => {
     this.http.post(`${this.URL}/register`, dto, { headers: this.header })
-      .subscribe( res => { console.log(res) 
+      .subscribe( res => { 
+        console.log(res);
         const token: string = res['auth-token'];
         this.storageService.storeToken(token).then(_ => this.router.navigateByUrl(this.loginRedirect));
+      }, error => {
+        console.log(error);
+        alert(error.error);
       });
   }
 
