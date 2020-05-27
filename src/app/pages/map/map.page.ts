@@ -4,7 +4,6 @@ import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
 import { HttpService } from 'src/app/services/http/http.service';
 import 'leaflet-routing-machine';
 import { Platform } from '@ionic/angular';
-//import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Plugins } from '@capacitor/core';
 import { LocationService } from 'src/app/services/location/location.service';
 
@@ -23,7 +22,6 @@ export class MapPage {
   distance: string;
 
   map: Map;
-  //center: PointTuple;
   startCoords = [this.latitude, this.longitude];
 
   constructor(private http:HttpService, public platform:Platform, private location:LocationService)  { 
@@ -43,7 +41,6 @@ export class MapPage {
           marker([races[i].startingPoint.coordinates[1], races[i].startingPoint.coordinates[0]]).addTo(this.map)
       .bindPopup('<b>' + races[i].title + '</b>' + '<br>' + races[i].distance + 'km')
       .openPopup();
-
         }
         marker([this.latitude, this.longitude]).addTo(this.map)
       .bindPopup('<b> You are here </b>')
@@ -105,3 +102,5 @@ export class MapPage {
     .openPopup();
   }
 }
+
+

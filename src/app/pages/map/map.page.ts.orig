@@ -56,19 +56,11 @@ export class MapPage {
     
     this.latitude = position.coords.latitude;
     this.longitude = position.coords.longitude;
-<<<<<<< HEAD
-    console.log('Current', position);
-    this.map = new Map('mapId').setView([this.latitude, this.longitude], 10);
-    tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
-      attribution: 'edupala.com © ionic LeafLet',
-    }).addTo(this.map);
-=======
     this.map.setView([this.latitude, this.longitude], 10);
     tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
       attribution: 'edupala.com © ionic LeafLet',
     }).addTo(this.map);
     this.getCurrentPosition();
->>>>>>> dev1
   }
 
 
