@@ -47,9 +47,6 @@ export class RacesPage implements OnInit {
   async ngOnInit(): Promise<void> {
     await this.http.setOptionsAsync();
     this.me = await this.http.get<Usermodel>('/profile').toPromise();
-
-
-  ngOnInit(): void {
     this.getCurrentPosition();
     this.http.get<Racemodel[]>('/races/races').subscribe(
        (races:Racemodel[]) => {
@@ -71,8 +68,8 @@ export class RacesPage implements OnInit {
       console.log(`!Notify! ${message}`);
           });
             
+  
   }
-
   async getNearPlaces(){
     const url:string = '/races/races/nearest/'+ this.distance + '/' + this.latitude + '/' + this.longitude
     this.http.get<Racemodel[]>(url).subscribe(
