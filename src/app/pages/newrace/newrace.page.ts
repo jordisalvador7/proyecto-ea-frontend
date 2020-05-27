@@ -9,6 +9,7 @@ import { HttpService } from 'src/app/services/http/http.service';
 import { Racemodel} from 'src/app/models/race/racemodel';
 import { Router } from '@angular/router';
 import { LocationService } from 'src/app/services/location/location.service';
+import { Usermodel } from 'src/app/models/user/usermodel';
 
 @Component({
   selector: 'app-newrace',
@@ -39,15 +40,18 @@ export class NewracePage implements OnInit {
   }
   async ionViewDidEnter(){
     await this.leafletMap();
+    await this.http.setOptionsAsync();
+    const me = await this.http.get<Usermodel>('/profile').toPromise();
+    this.newRace.author = me.username;
+    console.log(this.newRace);
   }
   async ngOnInit(){
-    await this.http.setOptionsAsync();
     this.newRace = {
-      title: '',
+      title: 'Untitled',
       author: '',
       date: new Date(),
       description:'',
-      distance: 0,
+      distance: 1,
       startingPoint: {
         coordinates: [this.lat, this.lng],
         type: ''
@@ -86,11 +90,13 @@ export class NewracePage implements OnInit {
     this.newRace.startingPoint.coordinates[1] = coord.lat;
     this.newRace.date = new Date();
     console.log(this.newRace);
-    this.http.post('/races', this.newRace).subscribe(( res => {
+    this.http.post('/races', this.newRace).subscribe(( async res => {
       console.log(res);
       //iria bien hacer una comprobacion de si ha subido bien la race
-      this.router.navigateByUrl('/races');
+      const anyres:any = res;
       console.log("posted");
+      await this.http.post<any>('/races/subscribe/' +  anyres._id).toPromise();
+      this.router.navigateByUrl('/races');
     }));
   }
 }

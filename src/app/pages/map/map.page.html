@@ -20,7 +20,7 @@
 <div id = "container"> 
   <h5><b>Showing races up to {{distance}} meters from your current location</b></h5>
 <ion-item>
-  <ion-range [(ngModel)]= "distance"  min="100" max="100000" color="success" pin="true" (mouseup) = "getNearPlaces()">      
+  <ion-range [(ngModel)]= "distance"  min="100" max="100000" color="success" pin="true" (ionChange) = "getNearPlaces()">      
     <ion-icon name="location-sharp" slot = "start" size= "small" color = "danger"></ion-icon>
     <ion-icon name="location-sharp" slot ="end" color = "danger" size = "large"></ion-icon>   
   </ion-range>  
