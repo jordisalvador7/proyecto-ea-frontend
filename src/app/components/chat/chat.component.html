@@ -1,3 +1,12 @@
-<p>
-  chat works!
-</p>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Chat</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <ion-item *ngFor="let msg of messages">
+        Item {{msg}}
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
