@@ -105,4 +105,29 @@ export class RacesPage implements OnInit {
     this.message = "";
   }
 
+  async Subscribe(race: Racemodel){
+    console.log("subscribe to");
+    console.log(race);
+    await this.http.post<any>('/races/subscribe/' +  race._id).toPromise();
+    //window.location.reload();
+    this.getNearPlaces()
+  }
+  async Unsubscribe(race: Racemodel){
+    console.log("unsubscribe from");
+    console.log(race);
+    await this.http.post<any>('/races/unsubscribe/' +  race._id).toPromise();
+    //window.location.reload();
+    this.getNearPlaces();
+  }
+
+  AmISubscribed(race: Racemodel):Boolean{
+    let veredict:boolean = false;
+    race.subscribers.forEach(sub => {
+      if(sub._id === this.me._id || sub === this.me._id){
+        veredict = true;
+      }
+    });
+    return veredict;
+  }
+
 }
