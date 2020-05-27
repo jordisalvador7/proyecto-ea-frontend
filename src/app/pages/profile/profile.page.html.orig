@@ -39,10 +39,11 @@
   </ion-list>
   <div id= "container">
 <<<<<<< HEAD
-    <ion-button href="/races"><ion-icon name="search-outline"></ion-icon> Search Races </ion-button>
-    <ion-button href="/newrace"><ion-icon name="add-outline"></ion-icon> New Race </ion-button>
+    <ion-button href="/races" shape = "round"><ion-icon name="search-outline"></ion-icon> Search Races </ion-button>
+    <ion-button href="/newrace" shape = "round"><ion-icon name="add-outline"></ion-icon> New Race </ion-button>
 =======
   <ion-button href="/races" shape = "round"><ion-icon name="search-outline"></ion-icon> Search Races </ion-button>
->>>>>>> 57cfd1d6f74590eb64affbbb14748dab483ed474
+  <ion-button href="/newrace" shape = "round"><ion-icon name="add-outline"></ion-icon> New Race </ion-button>
+>>>>>>> dev1
   </div>
 </ion-content>
