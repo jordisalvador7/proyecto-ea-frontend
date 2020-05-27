@@ -10,6 +10,9 @@ import { Plugins } from '@capacitor/core';
 
 import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
 import { LocationService } from 'src/app/services/location/location.service';
+import { StorageService } from 'src/app/services/storage/storage.service';
+import { IProfile } from 'src/app/models/IProfile';
+import { Router } from '@angular/router';
 
 const { Geolocation } = Plugins;
 
@@ -24,8 +27,10 @@ export class RacesPage implements OnInit {
   constructor(
     private http:HttpService,
     private authService:AuthService,
+    private storageService: StorageService,
     private location: LocationService,
     public platform:Platform,
+    private router: Router,
     )
     {
     this.platform.ready().then(() => {
@@ -37,14 +42,20 @@ export class RacesPage implements OnInit {
   distance: string;
   latitude: number;
   longitude: number;
+  me: Usermodel;
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    await this.http.setOptionsAsync();
+    this.me = await this.http.get<Usermodel>('/profile').toPromise();
+
     this.getCurrentPosition();
     this.http.get<Racemodel[]>('/races/races').subscribe(
-       (races:Racemodel[]) => {
-            this.races= races;
-            console.log(this.races)
-            })
+      (races:Racemodel[]) => {
+        this.races= races;
+        console.log(this.races);
+        this.loadSubs();
+      }
+    )
   }
 
   getNearPlaces(){
@@ -52,8 +63,19 @@ export class RacesPage implements OnInit {
     this.http.get<Racemodel[]>(url).subscribe(
       (races:Racemodel[]) => {
           this.races= races;
-          console.log(this.races)
+          console.log(this.races);
+          this.loadSubs();
         })
+  }
+
+  loadSubs(){
+    this.races.forEach(race => {
+      this.http.get<Usermodel[]>('/races/getsubs/' + race._id).subscribe(
+        (subs:Usermodel[]) => {
+          race.subscribers = subs;
+        }
+      )
+    });
   }
 
   async getCurrentPosition() {
@@ -63,4 +85,28 @@ export class RacesPage implements OnInit {
     console.log('Current', position);
   }
 
+  async Subscribe(race: Racemodel){
+    console.log("subscribe to");
+    console.log(race);
+    await this.http.post<any>('/races/subscribe/' +  race._id).toPromise();
+    //window.location.reload();
+    this.getNearPlaces()
+  }
+  async Unsubscribe(race: Racemodel){
+    console.log("unsubscribe from");
+    console.log(race);
+    await this.http.post<any>('/races/unsubscribe/' +  race._id).toPromise();
+    //window.location.reload();
+    this.getNearPlaces();
+  }
+
+  AmISubscribed(race: Racemodel):Boolean{
+    let veredict:boolean = false;
+    race.subscribers.forEach(sub => {
+      if(sub._id === this.me._id || sub === this.me._id){
+        veredict = true;
+      }
+    });
+    return veredict;
+  }
 }

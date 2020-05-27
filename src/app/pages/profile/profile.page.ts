@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpService } from 'src/app/services/http/http.service';
 import { map } from 'rxjs/operators';
 import { IProfile } from 'src/app/models/IProfile';
+import { HttpHeaders } from '@angular/common/http';
 
 // Objeto modesto
 type UserProfile = {     
@@ -27,7 +28,7 @@ export class ProfilePage implements OnInit {
   }
   constructor(private http: HttpService, private authService:AuthService) { }
   
-  ngOnInit() {
+  async ngOnInit() {
 
     // this.http.get('/profile').pipe(map(profile => {
     //     this.userProfile.id = profile['_id'];
@@ -35,8 +36,9 @@ export class ProfilePage implements OnInit {
     //     this.userProfile.email = profile['Email'];
     //     this.userProfile.history = profile['History'];
     //   })).subscribe();
-      
-      this.http.get('/profile').subscribe( (profile: IProfile) => { 
+    await this.http.setOptionsAsync();
+    console.log(this.http.headers);
+    this.http.get('/profile').subscribe( (profile: IProfile) => { 
         this.userProfile.id = profile._id;
         this.userProfile.username = profile.username;
         this.userProfile.email = profile.email;
