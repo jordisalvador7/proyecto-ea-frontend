@@ -38,7 +38,7 @@
   
   <h5><b>Showing races up to {{distance}} meters from your current location</b></h5>
 
-  <ion-list>
+ <ion-list>
    <ion-item *ngFor = "let race of races">
     <ion-label><b>Title:</b> {{race.title}}</ion-label>
     <ion-label><b>Author:</b> {{race.author}}</ion-label>
@@ -60,6 +60,27 @@
     </ng-template>
   </ion-item>
   </ion-list>
+
+  <!--Idea Toni<ion-card *ngFor = "let race of races">
+    <ion-item>
+      <ion-icon name="pin" slot="start"></ion-icon>
+      <ion-label>{{race.title}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>Author:{{race.author}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>Distance:{{race.distance}}</ion-label>
+    </ion-item>
+    <ion-card-content>
+    <ion-list>
+     <ion-item *ngFor = "let sub of race.subscribers">
+        {{sub.username}}
+     </ion-item>
+     </ion-list>
+    </ion-card-content>
+  </ion-card>-->
+
 
   
 </ion-content>
