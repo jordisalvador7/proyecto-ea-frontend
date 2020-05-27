@@ -9,6 +9,7 @@ import { Plugins } from '@capacitor/core';
 
 
 import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
+import { LocationService } from 'src/app/services/location/location.service';
 
 const { Geolocation } = Plugins;
 
@@ -23,6 +24,7 @@ export class RacesPage implements OnInit {
   constructor(
     private http:HttpService,
     private authService:AuthService,
+    private location: LocationService,
     public platform:Platform,
     )
     {
@@ -55,7 +57,7 @@ export class RacesPage implements OnInit {
   }
 
   async getCurrentPosition() {
-    const position = await Geolocation.getCurrentPosition();
+    const position = await this.location.getLocation();
     this.latitude = position.coords.latitude;
     this.longitude = position.coords.longitude;
     console.log('Current', position);

@@ -31,7 +31,6 @@ export class NewracePage implements OnInit {
   constructor(
     private http: HttpService,
     public platform: Platform,
-    private geolocation: Geolocation,
     private location: LocationService,
     private router: Router) 
   {
