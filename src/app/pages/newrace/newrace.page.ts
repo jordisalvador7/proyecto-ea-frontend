@@ -92,11 +92,15 @@ export class NewracePage implements OnInit {
     console.log(this.newRace);
     this.http.post('/races', this.newRace).subscribe(( async res => {
       console.log(res);
-      //iria bien hacer una comprobacion de si ha subido bien la race
       const anyres:any = res;
       console.log("posted");
+      if(anyres._id){
       await this.http.post<any>('/races/subscribe/' +  anyres._id).toPromise();
       this.router.navigateByUrl('/races');
+      }
+      else{
+        alert(anyres.race.message);
+      }
     }));
   }
 }

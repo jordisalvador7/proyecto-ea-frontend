@@ -48,6 +48,9 @@ export class AuthService {
     .subscribe(res => {
       const token: string = res['auth-token'];
       this.storageService.storeToken(token).then(_ => this.router.navigateByUrl(this.loginRedirect));
+    }, err => {
+      console.log(err);
+      alert(err.error);
     });
   }
 

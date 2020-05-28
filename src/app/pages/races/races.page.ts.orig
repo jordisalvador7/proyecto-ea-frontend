@@ -1,3 +1,5 @@
+import { LocationService } from 'src/app/services/location/location.service';
+import { StorageService } from './../../services/storage/storage.service';
 import { Racemodel } from './../../models/race/racemodel';
 import { Usermodel } from './../../models/user/usermodel';
 import { Placemodel } from './../../models/place/placemodel';
@@ -9,10 +11,13 @@ import { Plugins } from '@capacitor/core';
 
 
 import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
+<<<<<<< HEAD
+=======
 import { LocationService } from 'src/app/services/location/location.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { IProfile } from 'src/app/models/IProfile';
 import { Router } from '@angular/router';
+>>>>>>> loqiba_anton2
 import { SocketService } from 'src/app/services/socket/socket.service';
 
 const { Geolocation } = Plugins;
@@ -31,7 +36,10 @@ export class RacesPage implements OnInit {
     private storageService: StorageService,
     private location: LocationService,
     public platform:Platform,
+<<<<<<< HEAD
+=======
     private router: Router,
+>>>>>>> loqiba_anton2
     private socketService: SocketService
     )
     {
@@ -50,6 +58,30 @@ export class RacesPage implements OnInit {
   async ngOnInit(): Promise<void> {
     await this.http.setOptionsAsync();
     this.me = await this.http.get<Usermodel>('/profile').toPromise();
+<<<<<<< HEAD
+    this.getCurrentPosition();
+    this.http.get<Racemodel[]>('/races/races').subscribe(
+       (races:Racemodel[]) => {
+            this.races= races;
+            console.log(this.races)
+            });
+      this.socketService.connect('races');
+      this.socketService.joinRoom('default', 'username');
+      this.socketService
+        .getMessages()
+        .subscribe((message: string) => {
+          this.messages.push(message);
+          console.log(message);
+        });
+      this.socketService
+        .getNotifications()
+        .subscribe((message: string) => {
+      this.messages.push(message);
+      console.log(`!Notify! ${message}`);
+          });
+            
+  
+=======
 
 
     this.getCurrentPosition();
@@ -74,9 +106,9 @@ export class RacesPage implements OnInit {
     this.messages.push(message);
     console.log(`!Notify! ${message}`);
         });            
+>>>>>>> loqiba_anton2
   }
-
-  getNearPlaces(){
+  async getNearPlaces(){
     const url:string = '/races/races/nearest/'+ this.distance + '/' + this.latitude + '/' + this.longitude
     this.http.get<Racemodel[]>(url).subscribe(
       (races:Racemodel[]) => {
@@ -103,6 +135,17 @@ export class RacesPage implements OnInit {
     console.log('Current', position);
   }
 
+<<<<<<< HEAD
+  sendMessage() {
+    this.socketService.sendMessage(this.message);
+    let  date: string = new Date().toLocaleTimeString();
+    this.message = `${date} ME: ${this.message}`;
+    this.messages.push(this.message);
+    this.message = "";
+  }
+
+=======
+>>>>>>> loqiba_anton2
   async Subscribe(race: Racemodel){
     console.log("subscribe to");
     console.log(race);
@@ -127,6 +170,8 @@ export class RacesPage implements OnInit {
     });
     return veredict;
   }
+<<<<<<< HEAD
+=======
   sendMessage() {
     this.socketService.sendMessage(this.message);
     let  date: string = new Date().toLocaleTimeString();
@@ -134,5 +179,6 @@ export class RacesPage implements OnInit {
     this.messages.push(this.message);
     this.message = "";
   }
+>>>>>>> loqiba_anton2
 
 }

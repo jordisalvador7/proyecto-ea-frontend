@@ -1,6 +1,5 @@
 <ion-header>
   <ion-toolbar>
-    <ion-back-button></ion-back-button>
     <ion-title class="ion-text-center">RUNNEA</ion-title>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/profile"></ion-back-button>      
@@ -30,7 +29,7 @@
     </ion-item>
     
   <ion-item>
-    <ion-range [(ngModel)]= "distance" min="100" max="100000" color="success" pin="true" (ionChange) = "getNearPlaces()">      
+    <ion-range [(ngModel)]= "distance" min="100" max="100000" color="success" pin="true" (mouseup) = "getNearPlaces()">      
       <ion-icon name="location-sharp" slot = "start" size= "small" color = "danger"></ion-icon>
       <ion-icon name="location-sharp" slot ="end" color = "danger" size = "large"></ion-icon>
     </ion-range>
@@ -38,14 +37,68 @@
   
   <h5><b>Showing races up to {{distance}} meters from your current location</b></h5>
 
-  <ion-list>
+ <ion-list>
    <ion-item *ngFor = "let race of races">
     <ion-label><b>Title:</b> {{race.title}}</ion-label>
     <ion-label><b>Author:</b> {{race.author}}</ion-label>
-    <ion-label><b>Distance:</b>{{race.distance}} km</ion-label>     
+    <ion-label><b>Distance:</b>{{race.distance}} km</ion-label>
+    <ion-label><b>Subscribers:</b> 
+      <div *ngFor = "let sub of race.subscribers">
+        {{sub.username}}
+      </div>
+    </ion-label>
+    <div *ngIf = "!AmISubscribed(race); else unsub">
+      <ion-button shape = "round" (click)="Subscribe(race)">
+        <b>Subscribe</b>
+      </ion-button>
+    </div>
+    <ng-template #unsub>
+      <ion-button shape = "round" (click)="Unsubscribe(race)">
+        <b>Unsubscribe</b>
+      </ion-button>
+    </ng-template>
   </ion-item>
   </ion-list>
 
+<<<<<<< HEAD
+=======
+  <!--Idea Toni<ion-card *ngFor = "let race of races">
+    <ion-item>
+      <ion-icon name="pin" slot="start"></ion-icon>
+      <ion-label>{{race.title}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>Author:{{race.author}}</ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>Distance:{{race.distance}}</ion-label>
+    </ion-item>
+    <ion-card-content>
+    <ion-list>
+     <ion-item *ngFor = "let sub of race.subscribers">
+        {{sub.username}}
+     </ion-item>
+     </ion-list>
+    </ion-card-content>
+  </ion-card>-->
+
+
+>>>>>>> loqiba_anton2
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Chat</ion-card-title>
+    </ion-card-header>
   
+    <ion-card-content>
+      <ion-item *ngFor="let msg of messages">
+        {{msg}}
+      </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Message</ion-label>
+          <ion-input autocomplete = "off" type="text" [(ngModel)]="message" required (keyup.enter)="sendMessage()"></ion-input>
+        </ion-item>
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>
 
