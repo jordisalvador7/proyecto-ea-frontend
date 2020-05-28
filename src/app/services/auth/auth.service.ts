@@ -48,18 +48,21 @@ export class AuthService {
     .subscribe(res => {
       const token: string = res['auth-token'];
       this.storageService.storeToken(token).then(_ => this.router.navigateByUrl(this.loginRedirect));
+    }, err => {
+      console.log(err);
+      alert(err.error);
     });
+  }
+
+  oauthLogin = () => {
+    console.log('Oauth Login IN');
+    this.http.get<auth>('http://localhost:3700/oauth/facebook/callback').subscribe((auth: auth) => {
+      console.log('TOKEN');
+      console.log(auth);
+    })
   } 
 
-  
-                // login = (dto: ILoginDto) => {
-                //   const options =  { responseType: 'text' as 'json' };
-              
-                //   this.http.post<any>(this.URL+'/login', dto, options)
-                    // .subscribe( res => { this.storageService.storeToken(res).then(_ => this.router.navigateByUrl('/profile'))});
-                // }
-                // setOptions = async (res: any) => {
-                //   await this.storageService.storeToken(res);
-                //   // await this.httpService.setOptions();
-                // }
+}
+interface auth {
+  authToken: string,
 }

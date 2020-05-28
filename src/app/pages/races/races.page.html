@@ -82,6 +82,21 @@
   </ion-card>-->
 
 
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Chat</ion-card-title>
+    </ion-card-header>
   
+    <ion-card-content>
+      <ion-item *ngFor="let msg of messages">
+        {{msg}}
+      </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Message</ion-label>
+          <ion-input autocomplete = "off" type="text" [(ngModel)]="message" required (keyup.enter)="sendMessage()"></ion-input>
+        </ion-item>
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>
 

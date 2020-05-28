@@ -9,11 +9,14 @@ import { Plugins } from '@capacitor/core';
 
 
 import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
+<<<<<<< HEAD
 import { LocationService } from 'src/app/services/location/location.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { IProfile } from 'src/app/models/IProfile';
 import { Router } from '@angular/router';
+=======
 import { SocketService } from 'src/app/services/socket/socket.service';
+>>>>>>> origin/oauth-components
 
 const { Geolocation } = Plugins;
 
@@ -31,8 +34,11 @@ export class RacesPage implements OnInit {
     private storageService: StorageService,
     private location: LocationService,
     public platform:Platform,
+<<<<<<< HEAD
     private router: Router,
+=======
     private socketService: SocketService
+>>>>>>> origin/oauth-components
     )
     {
     this.platform.ready().then(() => {
@@ -51,7 +57,7 @@ export class RacesPage implements OnInit {
     await this.http.setOptionsAsync();
     this.me = await this.http.get<Usermodel>('/profile').toPromise();
 
-
+<<<<<<< HEAD
     this.getCurrentPosition();
     this.http.get<Racemodel[]>('/races/races').subscribe(
       (races:Racemodel[]) => {
@@ -59,21 +65,32 @@ export class RacesPage implements OnInit {
         console.log(this.races);
         this.loadSubs();
       }
-    );
-    this.socketService.connect('races');
-    this.socketService.joinRoom('default', 'username');
-    this.socketService
-      .getMessages()
-      .subscribe((message: string) => {
-        this.messages.push(message);
-        console.log(message);
-      });
-    this.socketService
-      .getNotifications()
-      .subscribe((message: string) => {
-    this.messages.push(message);
-    console.log(`!Notify! ${message}`);
-        });            
+    )
+=======
+
+  ngOnInit(): void {
+    this.getCurrentPosition();
+    this.http.get<Racemodel[]>('/races/races').subscribe(
+       (races:Racemodel[]) => {
+            this.races= races;
+            console.log(this.races)
+            });
+      this.socketService.connect('races');
+      this.socketService.joinRoom('default', 'username');
+      this.socketService
+        .getMessages()
+        .subscribe((message: string) => {
+          this.messages.push(message);
+          console.log(message);
+        });
+      this.socketService
+        .getNotifications()
+        .subscribe((message: string) => {
+      this.messages.push(message);
+      console.log(`!Notify! ${message}`);
+          });
+            
+>>>>>>> origin/oauth-components
   }
 
   getNearPlaces(){
@@ -103,6 +120,7 @@ export class RacesPage implements OnInit {
     console.log('Current', position);
   }
 
+<<<<<<< HEAD
   async Subscribe(race: Racemodel){
     console.log("subscribe to");
     console.log(race);
@@ -127,6 +145,7 @@ export class RacesPage implements OnInit {
     });
     return veredict;
   }
+=======
   sendMessage() {
     this.socketService.sendMessage(this.message);
     let  date: string = new Date().toLocaleTimeString();
@@ -135,4 +154,5 @@ export class RacesPage implements OnInit {
     this.message = "";
   }
 
+>>>>>>> origin/oauth-components
 }
