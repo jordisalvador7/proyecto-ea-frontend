@@ -31,7 +31,7 @@ export class AuthService {
      }
 
   register = (dto: IRegisterDto) => {
-    this.http.post(`${this.URL}/register`, dto, { headers: this.header })
+    this.http.post(`${this.URL}/login`, dto, { headers: this.header })
       .subscribe( res => { 
         console.log(res);
         const token: string = res['auth-token'];

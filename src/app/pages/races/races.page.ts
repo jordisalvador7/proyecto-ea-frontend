@@ -1,3 +1,4 @@
+import { InforaceService } from './../../services/inforace/inforace.service';
 import { Racemodel } from './../../models/race/racemodel';
 import { Usermodel } from './../../models/user/usermodel';
 import { Placemodel } from './../../models/place/placemodel';
@@ -6,13 +7,16 @@ import { HttpService } from 'src/app/services/http/http.service';
 import { Component, OnInit } from '@angular/core';
 import {Platform} from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
+//import { NavController } from 'ionic-angular';
+import { RaceinfoPage } from '../raceinfo/raceinfo.page';
+
 
 
 import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
 import { LocationService } from 'src/app/services/location/location.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { IProfile } from 'src/app/models/IProfile';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 import { SocketService } from 'src/app/services/socket/socket.service';
 
 const { Geolocation } = Plugins;
@@ -32,7 +36,9 @@ export class RacesPage implements OnInit {
     private location: LocationService,
     public platform:Platform,
     private router: Router,
-    private socketService: SocketService
+    private socketService: SocketService,
+    private infoService: InforaceService,
+    //public navCtrl: NavController
     )
     {
     this.platform.ready().then(() => {
@@ -47,6 +53,7 @@ export class RacesPage implements OnInit {
   longitude: number;
   me: Usermodel;
   subnumber : number;
+  raceinfo: Racemodel;
 
   async ngOnInit(): Promise<void> {
     await this.http.setOptionsAsync();
@@ -92,7 +99,6 @@ export class RacesPage implements OnInit {
       this.http.get<Usermodel[]>('/races/getsubs/' + race._id).subscribe(
         (subs:Usermodel[]) => {
           race.subscribers = subs;
-        this.subnumber = race.subscribers.length;
         }
       )
     });
@@ -136,5 +142,20 @@ export class RacesPage implements OnInit {
     this.messages.push(this.message);
     this.message = "";
   }
+
+ /*movePage() {
+   this.navCtrl.push(RaceinfoPage)
+ }*/
+
+ async getRaceid(race: Racemodel) {
+   console.log(race._id)
+   //this.raceinfo = race;
+   let navigationExtras: NavigationExtras = {
+     queryParams : {
+       special: JSON.stringify(race)
+     }
+   }
+   this.router.navigate(['/raceinfo'], navigationExtras);
+ }
 
 }
