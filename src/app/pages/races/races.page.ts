@@ -46,6 +46,7 @@ export class RacesPage implements OnInit {
   latitude: number;
   longitude: number;
   me: Usermodel;
+  subnumber : number;
 
   async ngOnInit(): Promise<void> {
     await this.http.setOptionsAsync();
@@ -91,6 +92,7 @@ export class RacesPage implements OnInit {
       this.http.get<Usermodel[]>('/races/getsubs/' + race._id).subscribe(
         (subs:Usermodel[]) => {
           race.subscribers = subs;
+        this.subnumber = race.subscribers.length;
         }
       )
     });
