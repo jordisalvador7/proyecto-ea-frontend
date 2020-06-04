@@ -1,4 +1,5 @@
 import { Usermodel } from '../user/usermodel';
+import { DatePipe } from '@angular/common';
 
 export class Racemodel {
         _id?: string;
@@ -9,9 +10,15 @@ export class Racemodel {
         startingPoint: LatLng;
         distance: number;
         subscribers: Usermodel[] | string[];
+        comments: string[];
 }
 
 interface LatLng{
     type: string,
     coordinates: number[]
   }
+
+interface Comments{
+        author: string;
+        text: string;
+}

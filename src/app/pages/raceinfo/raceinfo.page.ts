@@ -12,7 +12,7 @@ import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
 })
 export class RaceinfoPage {
 
-  data:any;
+  raceId:any;
 
   constructor(
     private http:HttpService,
@@ -22,30 +22,47 @@ export class RaceinfoPage {
     this.route.queryParams.subscribe(params => {
       console.log('params:', params);
       if (params && params.special) {
-        this.data = JSON.parse(params.special);
+        this.raceId = JSON.parse(params.special);
       }
     });
    }
 
-  races: Racemodel[];
+  races: Racemodel;
+  race: Racemodel = new Racemodel();
   me: Usermodel;
   map: Map;
   latitude: number;
   longitude: number;
+  marker: string;
 
   async ionViewDidEnter() {
+    this.getRace();
+
     await this.http.setOptionsAsync();
     this.leafletMap();
+    /*this.map.off();
+    this.map.remove();
+    this.leafletMap();*/
     marker([this.latitude, this.longitude]).addTo(this.map)
-      .bindPopup('<b> Starting Point </b>')
+      .bindPopup('<b>' + this.marker + '</b>')
       .openPopup();
   }
 
   async leafletMap()
   {
     this.map = new Map('mapId');
-    this.latitude = this.data.startingPoint.coordinates[1];
-    this.longitude = this.data.startingPoint.coordinates[0];
+    this.getRace();
+    if (this.race.startingPoint != null){
+      this.latitude = this.race.startingPoint.coordinates[1];
+      this.longitude = this.race.startingPoint.coordinates[0];
+      this.marker = 'Starting Point'
+    }
+    else{
+      this.latitude= 41.27555556;
+      this.longitude = 1.98694444;
+      this.marker = 'Couldn\'t load starting point'
+    }
+    
     console.log(this.latitude , this.longitude);
     this.map.setView([this.latitude, this.longitude], 15);
     tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
@@ -53,17 +70,26 @@ export class RaceinfoPage {
     }).addTo(this.map);
   }
 
-  
+  async getRace(){
+    const url:string = '/races/races/'+ this.raceId;
+    this.http.get<Racemodel>(url).subscribe(
+      (race:Racemodel) => {
+          this.race= race;
+          console.log(this.race);
+          console.log(this.race.comments);
+          this.loadSubs();
+        })
+  }
 
   async Subscribe(race: Racemodel){
-    console.log("subscribe to");
+    console.log('subscribe to');
     console.log(race);
     await this.http.post<any>('/races/subscribe/' +  race._id).toPromise();
     //window.location.reload();
     //this.getNearPlaces()
   }
   async Unsubscribe(race: Racemodel){
-    console.log("unsubscribe from");
+    console.log('unsubscribe from');
     console.log(race);
     await this.http.post<any>('/races/unsubscribe/' +  race._id).toPromise();
     //window.location.reload();
@@ -80,4 +106,13 @@ export class RaceinfoPage {
     return veredict;
   }
 
-}
+  loadSubs(){
+        this.http.get<Usermodel[]>('/races/getsubs/' + this.race._id).subscribe(
+        (subs:Usermodel[]) => {
+          this.race.subscribers = subs;
+        }
+      )
+    };
+  }
+
+

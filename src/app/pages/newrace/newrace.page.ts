@@ -56,7 +56,8 @@ export class NewracePage implements OnInit {
         coordinates: [this.lat, this.lng],
         type: ''
       },
-      subscribers: []
+      subscribers: [],
+      comments: []
     }
   }
   async leafletMap()

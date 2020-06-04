@@ -1,4 +1,5 @@
-import { Racemodel } from './../../models/race/racemodel';
+import { Racemodel } from 'src/app/models/race/racemodel';
+import { NavigationExtras, Router } from '@angular/router';
 import { Component } from '@angular/core';
 import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
 import { HttpService } from 'src/app/services/http/http.service';
@@ -24,7 +25,7 @@ export class MapPage {
   map: Map;
   startCoords = [this.latitude, this.longitude];
 
-  constructor(private http:HttpService, public platform:Platform, private location:LocationService)  { 
+  constructor(private http:HttpService, public platform:Platform, private location:LocationService, private router:Router)  { 
     this.platform.ready().then(() => {
     this.distance = '100000';
   }) }
@@ -39,13 +40,23 @@ export class MapPage {
         this.races= races;
         console.log((this.races))
         for (let i=0; i<races.length; i++){
-          marker([races[i].startingPoint.coordinates[1], races[i].startingPoint.coordinates[0]]).addTo(this.map)
-      .bindPopup('<b>' + races[i].title + '</b>' + '<br>' + races[i].distance + 'km')
-      .openPopup();
+          let navigationExtras: NavigationExtras = {
+            queryParams : {
+              special: JSON.stringify(this.races[i]._id)
+            }
+          }
+          marker([races[i].startingPoint.coordinates[1], races[i].startingPoint.coordinates[0]])
+          
+          .on('dblclick', () => this.router.navigate(['/raceinfo'], navigationExtras))
+          .addTo(this.map)
+          .bindPopup('<b>' + races[i].title + '</b>' + '<br>' + races[i].distance + 'km')
+          .openPopup();
         }
-        marker([this.latitude, this.longitude]).addTo(this.map)
-      .bindPopup('<b> You are here </b>')
-      .openPopup();
+        marker([this.latitude, this.longitude])
+        
+        .addTo(this.map)
+        .bindPopup('<b> You are here </b>')
+        .openPopup();
       })
   }
 
@@ -53,8 +64,6 @@ export class MapPage {
   {
     this.map = new Map('mapId');
     const position = await this.location.getLocation();
-    
-    
     this.latitude = position.coords.latitude;
     this.longitude = position.coords.longitude;
     this.map.setView([this.latitude, this.longitude], 10);
@@ -86,7 +95,6 @@ export class MapPage {
     tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
       attribution: 'edupala.com © ionic LeafLet',
     }).addTo(this.map);
-    
     this.http.get<Racemodel[]>(url).subscribe(
       (races:Racemodel[]) => {
         this.races= races;
@@ -102,6 +110,23 @@ export class MapPage {
     .bindPopup('<b> You are here </b>')
     .openPopup();
   }
+
+ 
+
+  async getRaceid(race: Racemodel) {
+    this.map.off();
+    this.map.remove();
+    console.log(race._id)
+    let navigationExtras: NavigationExtras = {
+      queryParams : {
+        special: JSON.stringify(race._id)
+      }
+    }
+    this.router.navigate(['/raceinfo'], navigationExtras);
+  }
 }
 
 
+ function onClick(e) { 
+    alert(this.getRaceid());
+  }

@@ -143,16 +143,12 @@ export class RacesPage implements OnInit {
     this.message = "";
   }
 
- /*movePage() {
-   this.navCtrl.push(RaceinfoPage)
- }*/
 
  async getRaceid(race: Racemodel) {
    console.log(race._id)
-   //this.raceinfo = race;
    let navigationExtras: NavigationExtras = {
      queryParams : {
-       special: JSON.stringify(race)
+       special: JSON.stringify(race._id)
      }
    }
    this.router.navigate(['/raceinfo'], navigationExtras);
