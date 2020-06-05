@@ -135,17 +135,17 @@ export class RaceinfoPage {
       const comment = this.newComment;
       console.log("posted");
       console.log(anyres);
-      console.log("id carrera" + comment._id);
       if(anyres._id){
-      await this.http.post<any>('/races/comment/' +  this.race._id + '/' + this.newComment._id).toPromise();
+      await this.http.post<any>('/races/comment/' +  this.race._id + '/' + anyres._id).toPromise();
       console.log(anyres._id);
+      this.loadComments();
       }
       else{
         alert(anyres.race.message);
       }
     }));
+    
   }
-
   
   }
 

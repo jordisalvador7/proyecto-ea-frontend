@@ -6,6 +6,7 @@
   </ion-buttons>
     
   <ion-buttons slot = "end">
+    <ion-button href="/newrace" shape = "round"><ion-icon name="add-circle" size = "large" color = "primary"></ion-icon></ion-button>
     <ion-button href="/races" shape = "round"><ion-icon name="list" size= "large" color = "primary"></ion-icon></ion-button>
     <ion-button href="/map" shape = "round"><ion-icon name="map-sharp" size = "large" color = "primary"></ion-icon></ion-button>
     <ion-button href="/profile" shape = "round"><ion-icon name="person-circle-outline" size = "large" color = "primary"></ion-icon></ion-button>
@@ -52,7 +53,7 @@
   
     <ion-card>
       <ion-card-header>
-        <ion-card-title><b>Race Comments</b></ion-card-title>
+        <ion-card-title class="ion-text-center"><b>User Opinions</b></ion-card-title>
       </ion-card-header>
       <ion-card-content>
       <ion-list>      
@@ -62,13 +63,15 @@
       </ion-card-content>
     </ion-card>
 
-    <ion-item lines="full">
+    <ion-card>
+    <ion-item>
       <ion-label position="floating">Leave your comment</ion-label>
       <ion-input autocomplete = "off" name = "text" type="text" [(ngModel)]="newComment.text" required (keyup.enter)="save()"></ion-input>
+      <ion-buttons slot = "end" color="primary">
+        <ion-button color ="primary" shape = "round" (click)="save()">Post</ion-button>
+      </ion-buttons>
     </ion-item>
+  </ion-card>
   
-    <div id="container">
-      <ion-button type="submit" color="danger" (click)="save()">Comment</ion-button>
-    </div>
 
 </ion-content>

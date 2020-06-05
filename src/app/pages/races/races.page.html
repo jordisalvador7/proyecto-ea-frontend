@@ -6,8 +6,10 @@
   </ion-buttons>
     
   <ion-buttons slot = "end">
+    <ion-button href="/newrace" shape = "round"><ion-icon name="add-circle" size = "large" color = "primary"></ion-icon></ion-button>
     <ion-button href="/map" shape = "round"><ion-icon name="map-sharp" size = "large" color = "primary"></ion-icon></ion-button>
     <ion-button href="/profile" shape = "round"><ion-icon name="person-circle-outline" size = "large" color = "primary"></ion-icon></ion-button>
+    
   </ion-buttons>
      
     
@@ -107,6 +109,9 @@
         <ion-item>
           <ion-label position="stacked">Message</ion-label>
           <ion-input autocomplete = "off" type="text" [(ngModel)]="message" required (keyup.enter)="sendMessage()"></ion-input>
+          <ion-buttons slot = "end" color="primary">
+            <ion-button color ="primary" shape = "round" (click)="sendMessage()"><ion-icon name="send" size = "large" color="primary"></ion-icon></ion-button>
+          </ion-buttons>
         </ion-item>
     </ion-card-content>
   </ion-card>
