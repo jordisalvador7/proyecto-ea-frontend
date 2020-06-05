@@ -1,5 +1,6 @@
 import { Usermodel } from './../../models/user/usermodel';
 import { Racemodel } from './../../models/race/racemodel';
+import { Comment } from './../../models/comment/comment';
 import { HttpService } from './../../services/http/http.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -34,18 +35,24 @@ export class RaceinfoPage {
   latitude: number;
   longitude: number;
   marker: string;
+  newComment: Comment = new Comment();
 
   async ionViewDidEnter() {
-    this.getRace();
-
     await this.http.setOptionsAsync();
     this.leafletMap();
-    /*this.map.off();
-    this.map.remove();
-    this.leafletMap();*/
     marker([this.latitude, this.longitude]).addTo(this.map)
-      .bindPopup('<b>' + this.marker + '</b>')
-      .openPopup();
+    .bindPopup('<b>' + this.marker + '</b>')
+    .openPopup();
+    const me = await this.http.get<Usermodel>('/profile').toPromise();
+    this.newComment.author = me.username;
+  }
+
+  async ngOnInit(){
+    this.getRace();
+    this.newComment = {
+      author: '',
+      text: ''
+    }
   }
 
   async leafletMap()
@@ -62,7 +69,6 @@ export class RaceinfoPage {
       this.longitude = 1.98694444;
       this.marker = 'Couldn\'t load starting point'
     }
-    
     console.log(this.latitude , this.longitude);
     this.map.setView([this.latitude, this.longitude], 15);
     tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
@@ -76,8 +82,8 @@ export class RaceinfoPage {
       (race:Racemodel) => {
           this.race= race;
           console.log(this.race);
-          console.log(this.race.comments);
           this.loadSubs();
+          this.loadComments();
         })
   }
 
@@ -113,6 +119,34 @@ export class RaceinfoPage {
         }
       )
     };
+
+    loadComments(){
+      this.http.get<Comment[]>('/races/getcomments/' + this.race._id).subscribe(
+      (comments:Comment[]) => {
+        this.race.comments = comments;
+      }
+    )
+  };
+
+  async save(){
+    console.log(this.newComment);
+    this.http.post('/races/comment', this.newComment).subscribe(( async res => {
+      const anyres:any = res;
+      const comment = this.newComment;
+      console.log("posted");
+      console.log(anyres);
+      console.log("id carrera" + comment._id);
+      if(anyres._id){
+      await this.http.post<any>('/races/comment/' +  this.race._id + '/' + this.newComment._id).toPromise();
+      console.log(anyres._id);
+      }
+      else{
+        alert(anyres.race.message);
+      }
+    }));
+  }
+
+  
   }
 
 

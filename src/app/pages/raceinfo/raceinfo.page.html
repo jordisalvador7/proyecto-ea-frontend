@@ -56,10 +56,19 @@
       </ion-card-header>
       <ion-card-content>
       <ion-list>      
-       <ion-item *ngFor = "let comment of race.comments"><ion-label>{{comment}} </ion-label></ion-item>
+       <ion-item *ngFor = "let comment of race.comments">
+         <ion-label> <b>{{comment.author}}:</b> {{comment.text}} </ion-label></ion-item>
       </ion-list>
       </ion-card-content>
     </ion-card>
+
+    <ion-item lines="full">
+      <ion-label position="floating">Leave your comment</ion-label>
+      <ion-input autocomplete = "off" name = "text" type="text" [(ngModel)]="newComment.text" required (keyup.enter)="save()"></ion-input>
+    </ion-item>
   
+    <div id="container">
+      <ion-button type="submit" color="danger" (click)="save()">Comment</ion-button>
+    </div>
 
 </ion-content>

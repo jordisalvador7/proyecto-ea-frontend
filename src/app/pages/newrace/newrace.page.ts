@@ -36,7 +36,6 @@ export class NewracePage implements OnInit {
     private router: Router) 
   {
     this.center = this.startCoords;
-    
   }
   async ionViewDidEnter(){
     await this.leafletMap();
