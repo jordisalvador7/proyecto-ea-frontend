@@ -98,8 +98,6 @@ export class RaceinfoPage {
     console.log('unsubscribe from');
     console.log(race);
     await this.http.post<any>('/races/unsubscribe/' +  race._id).toPromise();
-    //window.location.reload();
-    //this.getNearPlaces();
   }
 
   AmISubscribed(race: Racemodel):Boolean{
