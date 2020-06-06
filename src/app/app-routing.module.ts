@@ -27,6 +27,10 @@ const routes: Routes = [
   {
     path: 'newrace',
     loadChildren: () => import('./pages/newrace/newrace.module').then( m => m.NewracePageModule)
+  },
+  {
+    path: 'racestats',
+    loadChildren: () => import('./pages/racestats/racestats.module').then( m => m.RacestatsPageModule)
   }
 
 
