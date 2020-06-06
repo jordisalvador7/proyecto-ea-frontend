@@ -13,6 +13,10 @@
 </ion-header>
 
 <ion-content>
+  <div id= "container">
+    <ion-button href="/races" shape = "round"><ion-icon name="search-outline"></ion-icon> Search Races </ion-button>
+    <ion-button href="/newrace" shape = "round"><ion-icon name="add-outline"></ion-icon> New Race </ion-button>
+    </div>
   <ion-list>
     <ion-item-group>
 
@@ -38,15 +42,42 @@
       </ion-item>
 
       <ion-item-divider>
+        <ion-label>Pending</ion-label>
+      </ion-item-divider>
+      <ion-list>
+        <ion-item *ngFor = "let race of pendingRaces">
+          <ion-label><b>Title:</b> {{race.title}}</ion-label>
+          <ion-label><b>Description:</b> {{race.description}}</ion-label>
+          <ion-label><b>Distance:</b>{{race.distance}} km</ion-label>
+          <ion-button shape = "round" (click)="Run(race)">
+            <b>Mark as runned</b>
+          </ion-button>
+        </ion-item>
+      </ion-list>
+       
+
+      <ion-item-divider>
         <ion-label>History</ion-label>
       </ion-item-divider>
-      <ion-item>
-        <ion-label>{{userProfile.history}}</ion-label>
-      </ion-item>
+      <ion-list>
+        <ion-card *ngFor = "let race of userProfile.history">
+          <ion-item>
+            <ion-icon name="pin" slot="start"></ion-icon>
+            <ion-label>{{race.title}}</ion-label>
+          </ion-item>
+          <ion-card-content>
+            <ion-item>
+              <ion-label>Author:{{race.author}}</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-label>Distance:{{race.distance}}</ion-label>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </ion-list>
     </ion-item-group>
   </ion-list>
-  <div id= "container">
-  <ion-button href="/races" shape = "round"><ion-icon name="search-outline"></ion-icon> Search Races </ion-button>
-  <ion-button href="/newrace" shape = "round"><ion-icon name="add-outline"></ion-icon> New Race </ion-button>
-  </div>
+  <ion-button shape = "round" (click)="clearHistory()">
+    <b>Clear history</b>
+  </ion-button>
 </ion-content>
