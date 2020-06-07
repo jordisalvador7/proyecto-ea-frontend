@@ -14,7 +14,6 @@ import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
 export class RaceinfoPage {
 
   raceId:any;
-
   constructor(
     private http:HttpService,
     private route: ActivatedRoute,
@@ -39,16 +38,19 @@ export class RaceinfoPage {
 
   async ionViewDidEnter() {
     await this.http.setOptionsAsync();
+    const me = await this.http.get<Usermodel>('/profile').toPromise();
+    this.newComment.author = me.username;
+    await this.getRace();
     this.leafletMap();
     marker([this.latitude, this.longitude]).addTo(this.map)
     .bindPopup('<b>' + this.marker + '</b>')
     .openPopup();
-    const me = await this.http.get<Usermodel>('/profile').toPromise();
-    this.newComment.author = me.username;
   }
 
   async ngOnInit(){
-    this.getRace();
+    await this.http.setOptionsAsync();
+    this.me = await this.http.get<Usermodel>('/profile').toPromise();
+    await this.getRace();
     this.newComment = {
       author: '',
       text: ''
@@ -58,7 +60,6 @@ export class RaceinfoPage {
   async leafletMap()
   {
     this.map = new Map('mapId');
-    this.getRace();
     if (this.race.startingPoint != null){
       this.latitude = this.race.startingPoint.coordinates[1];
       this.longitude = this.race.startingPoint.coordinates[0];
@@ -78,13 +79,10 @@ export class RaceinfoPage {
 
   async getRace(){
     const url:string = '/races/races/'+ this.raceId;
-    this.http.get<Racemodel>(url).subscribe(
-      (race:Racemodel) => {
-          this.race= race;
-          console.log(this.race);
-          this.loadSubs();
-          this.loadComments();
-        })
+    this.race = await this.http.get<Racemodel>(url).toPromise();
+    console.log(this.race);
+    await this.loadSubs();
+    this.loadComments();
   }
 
   async Subscribe(race: Racemodel){
@@ -93,14 +91,20 @@ export class RaceinfoPage {
     await this.http.post<any>('/races/subscribe/' +  race._id).toPromise();
     //window.location.reload();
     //this.getNearPlaces()
+    await this.loadSubs();
   }
   async Unsubscribe(race: Racemodel){
     console.log('unsubscribe from');
     console.log(race);
     await this.http.post<any>('/races/unsubscribe/' +  race._id).toPromise();
+    await this.loadSubs();
   }
 
-  AmISubscribed(race: Racemodel):Boolean{
+  AmISubscribed():Boolean{
+    const race = this.race;
+    if (race.subscribers === undefined) {
+      return false;
+    }
     let veredict:boolean = false;
     race.subscribers.forEach(sub => {
       if(sub._id === this.me._id || sub === this.me._id){
@@ -110,13 +114,12 @@ export class RaceinfoPage {
     return veredict;
   }
 
-  loadSubs(){
-        this.http.get<Usermodel[]>('/races/getsubs/' + this.race._id).subscribe(
-        (subs:Usermodel[]) => {
-          this.race.subscribers = subs;
-        }
-      )
-    };
+  async loadSubs(){
+    const subs = await this.http.get<Usermodel[]>('/races/getsubs/' + this.race._id).toPromise();
+        
+    this.race.subscribers = subs;
+        
+  }
 
     loadComments(){
       this.http.get<Comment[]>('/races/getcomments/' + this.race._id).subscribe(
