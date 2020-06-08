@@ -36,6 +36,8 @@ export class RaceinfoPage {
   longitude: number;
   marker: string;
   newComment: Comment = new Comment();
+  date: string;
+  time: string;
 
   async ionViewDidEnter() {
     await this.http.setOptionsAsync();
@@ -49,9 +51,13 @@ export class RaceinfoPage {
 
   async ngOnInit(){
     this.getRace();
+    this.date = new Date().toLocaleDateString();
+    this.time = new Date().toLocaleTimeString();
     this.newComment = {
       author: '',
-      text: ''
+      text: '',
+      date: this.date,
+      time: this.time
     }
   }
 
@@ -131,8 +137,10 @@ export class RaceinfoPage {
     this.http.post('/races/comment', this.newComment).subscribe(( async res => {
       const anyres:any = res;
       const comment = this.newComment;
+      console.log('Este es el comment que envio' + this.newComment)
       console.log("posted");
       console.log(anyres);
+      
       if(anyres._id){
       await this.http.post<any>('/races/comment/' +  this.race._id + '/' + anyres._id).toPromise();
       console.log(anyres._id);
@@ -142,7 +150,7 @@ export class RaceinfoPage {
         alert(anyres.race.message);
       }
     }));
-    
+    this.newComment.text = '';
   }
   
   }
