@@ -36,7 +36,6 @@ export class NewracePage implements OnInit {
     private router: Router) 
   {
     this.center = this.startCoords;
-    
   }
   async ionViewDidEnter(){
     await this.leafletMap();
@@ -56,7 +55,8 @@ export class NewracePage implements OnInit {
         coordinates: [this.lat, this.lng],
         type: ''
       },
-      subscribers: []
+      subscribers: [],
+      comments: []
     }
   }
   async leafletMap()
