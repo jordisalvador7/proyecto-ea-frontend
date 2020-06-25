@@ -14,7 +14,6 @@ import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
 export class RaceinfoPage {
 
   raceId:any;
-
   constructor(
     private http:HttpService,
     private route: ActivatedRoute,
@@ -36,55 +35,69 @@ export class RaceinfoPage {
   longitude: number;
   marker: string;
   newComment: Comment = new Comment();
+  date: string;
+  time: string;
 
   async ionViewDidEnter() {
     await this.http.setOptionsAsync();
-    this.leafletMap();
+    await this.getRace();
+    await this.leafletMap();
     marker([this.latitude, this.longitude]).addTo(this.map)
     .bindPopup('<b>' + this.marker + '</b>')
     .openPopup();
-    const me = await this.http.get<Usermodel>('/profile').toPromise();
-    this.newComment.author = me.username;
   }
 
   async ngOnInit(){
-    this.getRace();
+    await this.http.setOptionsAsync();
+    this.me = await this.http.get<Usermodel>('/profile').toPromise();
+    await this.getRace();
+    this.date = new Date().toLocaleDateString();
+    this.time = new Date().toLocaleTimeString();
     this.newComment = {
       author: '',
-      text: ''
+      text: '',
+      date: this.date,
+      time: this.time
     }
+    this.newComment.author = this.me.username;
   }
 
   async leafletMap()
   {
-    this.map = new Map('mapId');
-    this.getRace();
-    if (this.race.startingPoint != null){
-      this.latitude = this.race.startingPoint.coordinates[1];
-      this.longitude = this.race.startingPoint.coordinates[0];
-      this.marker = 'Starting Point'
+    try{
+      if(this.map != undefined){
+        this.map.off();
+        this.map.remove();
+        this.map = undefined;
+      }
+      this.map = new Map('mapId');
+      if (this.race.startingPoint != null){
+        this.latitude = this.race.startingPoint.coordinates[1];
+        this.longitude = this.race.startingPoint.coordinates[0];
+        this.marker = 'Starting Point'
+      }
+      else{
+        this.latitude= 41.27555556;
+        this.longitude = 1.98694444;
+        this.marker = 'Couldn\'t load starting point'
+      }
+      console.log(this.latitude , this.longitude);
+      this.map.setView([this.latitude, this.longitude], 15);
+      tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'edupala.com © ionic LeafLet',
+      }).addTo(this.map);
     }
-    else{
-      this.latitude= 41.27555556;
-      this.longitude = 1.98694444;
-      this.marker = 'Couldn\'t load starting point'
+    catch(err){
+      console.log(err);
     }
-    console.log(this.latitude , this.longitude);
-    this.map.setView([this.latitude, this.longitude], 15);
-    tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
-      attribution: 'edupala.com © ionic LeafLet',
-    }).addTo(this.map);
   }
 
   async getRace(){
-    const url:string = '/races/races/'+ this.raceId;
-    this.http.get<Racemodel>(url).subscribe(
-      (race:Racemodel) => {
-          this.race= race;
-          console.log(this.race);
-          this.loadSubs();
-          this.loadComments();
-        })
+    const url:string = '/races/'+ this.raceId;
+    this.race = await this.http.get<Racemodel>(url).toPromise();
+    console.log(this.race);
+    await this.loadSubs();
+    this.loadComments();
   }
 
   async Subscribe(race: Racemodel){
@@ -93,14 +106,20 @@ export class RaceinfoPage {
     await this.http.post<any>('/races/subscribe/' +  race._id).toPromise();
     //window.location.reload();
     //this.getNearPlaces()
+    await this.loadSubs();
   }
   async Unsubscribe(race: Racemodel){
     console.log('unsubscribe from');
     console.log(race);
     await this.http.post<any>('/races/unsubscribe/' +  race._id).toPromise();
+    await this.loadSubs();
   }
 
-  AmISubscribed(race: Racemodel):Boolean{
+  AmISubscribed():Boolean{
+    const race = this.race;
+    if (race.subscribers === undefined) {
+      return false;
+    }
     let veredict:boolean = false;
     race.subscribers.forEach(sub => {
       if(sub._id === this.me._id || sub === this.me._id){
@@ -110,13 +129,12 @@ export class RaceinfoPage {
     return veredict;
   }
 
-  loadSubs(){
-        this.http.get<Usermodel[]>('/races/getsubs/' + this.race._id).subscribe(
-        (subs:Usermodel[]) => {
-          this.race.subscribers = subs;
-        }
-      )
-    };
+  async loadSubs(){
+    const subs = await this.http.get<Usermodel[]>('/races/getsubs/' + this.race._id).toPromise();
+        
+    this.race.subscribers = subs;
+        
+  }
 
     loadComments(){
       this.http.get<Comment[]>('/races/getcomments/' + this.race._id).subscribe(
@@ -127,12 +145,19 @@ export class RaceinfoPage {
   };
 
   async save(){
+
+    this.date = new Date().toLocaleDateString();
+    this.time = new Date().toLocaleTimeString();
+    this.newComment.date = this.date;
+    this.newComment.time = this.time;
     console.log(this.newComment);
     this.http.post('/races/comment', this.newComment).subscribe(( async res => {
       const anyres:any = res;
       const comment = this.newComment;
+      console.log('Este es el comment que envio' + this.newComment)
       console.log("posted");
       console.log(anyres);
+      
       if(anyres._id){
       await this.http.post<any>('/races/comment/' +  this.race._id + '/' + anyres._id).toPromise();
       console.log(anyres._id);
@@ -142,7 +167,7 @@ export class RaceinfoPage {
         alert(anyres.race.message);
       }
     }));
-    
+    this.newComment.text = '';
   }
   
   }

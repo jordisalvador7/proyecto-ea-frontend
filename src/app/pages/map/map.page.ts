@@ -47,7 +47,11 @@ export class MapPage {
           }
           marker([races[i].startingPoint.coordinates[1], races[i].startingPoint.coordinates[0]])
           
-          .on('dblclick', () => this.router.navigate(['/raceinfo'], navigationExtras))
+          .on('dblclick', () => {
+            this.map.off();
+            this.map.remove();
+            this.router.navigate(['/raceinfo'], navigationExtras);
+          })
           .addTo(this.map)
           .bindPopup('<b>' + races[i].title + '</b>' + '<br>' + races[i].distance + 'km')
           .openPopup();
@@ -62,6 +66,12 @@ export class MapPage {
 
   async leafletMap()
   {
+    if(this.map != undefined){
+      this.map.off();
+      this.map.remove();
+      this.map = undefined;
+    }
+    
     this.map = new Map('mapId');
     const position = await this.location.getLocation();
     this.latitude = position.coords.latitude;

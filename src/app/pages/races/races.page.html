@@ -81,7 +81,7 @@
      <ion-item *ngFor = "let sub of race.subscribers">
         {{sub.username}}
      </ion-item>
-     <div *ngIf = "!AmISubscribed(race); else unsub">
+     <!--<div *ngIf = "!AmISubscribed(race); else unsub">
       <ion-button shape = "round" (click)="Subscribe(race)">
         <b>Subscribe</b>
       </ion-button>
@@ -90,11 +90,11 @@
       <ion-button shape = "round" (click)="Unsubscribe(race)">
         <b>Unsubscribe</b>
       </ion-button>
-    </ng-template>
+    </ng-template>-->
 
      </ion-list>
     </ion-card-content>
-  </ion-card>--
+  </ion-card>
 
 
   <ion-card>
