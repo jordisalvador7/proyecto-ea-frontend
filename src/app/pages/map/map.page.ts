@@ -7,6 +7,7 @@ import 'leaflet-routing-machine';
 import { Platform } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
 import { LocationService } from 'src/app/services/location/location.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 
 const { Geolocation } = Plugins;
@@ -25,13 +26,19 @@ export class MapPage {
   map: Map;
   startCoords = [this.latitude, this.longitude];
 
-  constructor(private http:HttpService, public platform:Platform, private location:LocationService, private router:Router)  { 
+  constructor(private http:HttpService, 
+    public platform:Platform, 
+    private location:LocationService, 
+    private router:Router,
+    private authService:AuthService)  { 
     this.platform.ready().then(() => {
     this.distance = '100000';
   }) }
 
   races: Racemodel[];
-
+  public logout(){
+    this.authService.logout();
+  }
   async ionViewDidEnter() { 
     await this.http.setOptionsAsync();
     this.leafletMap();

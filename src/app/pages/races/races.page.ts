@@ -55,6 +55,10 @@ export class RacesPage implements OnInit {
   subnumber : number;
   raceinfo: Racemodel;
 
+  public logout(){
+    this.authService.logout();
+  }
+
   async ngOnInit(): Promise<void> {
     await this.http.setOptionsAsync();
     this.me = await this.http.get<Usermodel>('/profile').toPromise();

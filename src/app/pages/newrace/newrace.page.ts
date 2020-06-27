@@ -10,6 +10,7 @@ import { Racemodel} from 'src/app/models/race/racemodel';
 import { Router } from '@angular/router';
 import { LocationService } from 'src/app/services/location/location.service';
 import { Usermodel } from 'src/app/models/user/usermodel';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-newrace',
@@ -33,10 +34,16 @@ export class NewracePage implements OnInit {
     private http: HttpService,
     public platform: Platform,
     private location: LocationService,
-    private router: Router) 
+    private router: Router,
+    private authService:AuthService) 
   {
     this.center = this.startCoords;
   }
+
+  public logout(){
+    this.authService.logout();
+  }
+
   async ionViewDidEnter(){
     await this.leafletMap();
     await this.http.setOptionsAsync();

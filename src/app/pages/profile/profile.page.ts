@@ -34,7 +34,9 @@ export class ProfilePage implements OnInit {
     private authService:AuthService,
 
     ) { }
-  
+  public logout(){
+    this.authService.logout();
+  }
   async ngOnInit() {
 
     // this.http.get('/profile').pipe(map(profile => {

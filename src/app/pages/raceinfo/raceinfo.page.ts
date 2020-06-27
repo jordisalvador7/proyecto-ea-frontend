@@ -5,6 +5,7 @@ import { HttpService } from './../../services/http/http.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-raceinfo',
@@ -17,7 +18,8 @@ export class RaceinfoPage {
   constructor(
     private http:HttpService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private authService:AuthService
   ) {
     this.route.queryParams.subscribe(params => {
       console.log('params:', params);
@@ -37,6 +39,10 @@ export class RaceinfoPage {
   newComment: Comment = new Comment();
   date: string;
   time: string;
+
+  public logout(){
+    this.authService.logout();
+  }
 
   async ionViewDidEnter() {
     await this.http.setOptionsAsync();

@@ -61,7 +61,13 @@ export class AuthService {
       console.log(auth);
     })
   } 
-
+  logout = () => {
+    console.log('Logging out...');
+    this.storageService.clear().then(() => {
+      console.log('logged out');
+      this.router.navigateByUrl('/home');
+    })
+  }
 }
 interface auth {
   authToken: string,

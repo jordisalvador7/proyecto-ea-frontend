@@ -5,6 +5,13 @@
     </ion-title>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/profile"></ion-back-button>      
+      <ion-buttons slot = "end">
+        <ion-button href="/newrace" shape = "round"><ion-icon name="add-circle" size = "large" color = "primary"></ion-icon></ion-button>
+        <ion-button href="/races" shape = "round"><ion-icon name="search-outline" size= "large" color = "primary"></ion-icon></ion-button>
+        <ion-button href="/map" shape = "round"><ion-icon name="map-sharp" size = "large" color = "primary"></ion-icon></ion-button>
+        <ion-button href="/profile" shape = "round"><ion-icon name="person-circle-outline" size = "large" color = "primary"></ion-icon></ion-button>
+        <ion-button (click)="logout()" shape = "round"><ion-icon name="exit" size = "large" color = "primary"></ion-icon></ion-button>
+      </ion-buttons>
   </ion-buttons>
   </ion-toolbar>
 </ion-header>

@@ -19,6 +19,12 @@ export class StorageService {
     });
   }
 
+  clear = () => {
+    return new Promise((resolve, reject) => {
+      this.storage.clear().then(() => { resolve(); });
+    });
+  }
+
   storeProfile = async (profile: IProfile) => {
     this.storage.set('profileId', profile._id);
     this.storage.set('profileUsername', profile.username);

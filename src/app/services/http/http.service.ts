@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { StorageService } from '../storage/storage.service';
 import { Observable } from 'rxjs';
 import { API_URL } from 'src/environments/custom';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,9 @@ export class HttpService {
   private URL: string;
   public headers: HttpHeaders;
 
-  constructor(private http: HttpClient, private storage: StorageService) { 
+  constructor(private http: HttpClient, 
+    private storage: StorageService,
+    private router: Router) { 
     this.URL = API_URL;
     this.setOptions();
     console.log("constructor http headers:", this.headers);
@@ -19,12 +22,21 @@ export class HttpService {
      
   }
   async setOptionsAsync(){
-    const token = await this.storage.retrieveToken();
-    this.headers = new HttpHeaders({
-      'Content-Type':  'application/json',
-      'auth-token': String(token),
-      returnType: 'json'
-    });
+    try{
+      const token = await this.storage.retrieveToken();
+      if (token == null || token == undefined){
+        throw new Error("");
+      }
+      this.headers = new HttpHeaders({
+        'Content-Type':  'application/json',
+        'auth-token': String(token),
+        returnType: 'json'
+      });
+    }
+    catch(err){
+      //alert("Not logged in");
+      this.router.navigateByUrl('/home');
+    }
   }
   
   setOptions = () => { 
