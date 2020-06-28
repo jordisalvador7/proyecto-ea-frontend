@@ -57,7 +57,6 @@ export class AuthService {
   }
 
   oauthLogin = (dto: ILoginDto) => {
-    console.log('OAUTH Login IN');
     this.http.post(`${this.URL}/oauthlogin`, dto, { headers: this.header })
     .subscribe(res => {
       const token: string = res['auth-token'];
@@ -81,7 +80,6 @@ export class AuthService {
   
 
   socialSignIn = (providerName: string, scopes?: Array<string>): Promise<any>  => {
-    console.log("socialSignin, provider:");
     const provider = new auth.OAuthProvider(providerName);
     // add any permission scope you need
     if (scopes) {
@@ -89,11 +87,9 @@ export class AuthService {
         provider.addScope(scope);
       });
     }
-    console.log(provider);
     return this.angularFire.signInWithPopup(provider);
   }
   logout = () => {
-    console.log('Logging out...');
     this.storageService.clear().then(() => {
       console.log('logged out');
       this.router.navigateByUrl('/home');
