@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { SocketService } from 'src/app/services/socket/socket.service';
 
 @Component({
   selector: 'app-raceinfo',
@@ -19,6 +20,7 @@ export class RaceinfoPage {
     private http:HttpService,
     private route: ActivatedRoute,
     private router: Router,
+    private socketService: SocketService,
     private authService:AuthService
   ) {
     this.route.queryParams.subscribe(params => {
@@ -39,6 +41,9 @@ export class RaceinfoPage {
   newComment: Comment = new Comment();
   date: string;
   time: string;
+
+  messages: string[] = [];
+  message: string;
 
   public logout(){
     this.authService.logout();
@@ -96,6 +101,31 @@ export class RaceinfoPage {
     catch(err){
       console.log(err);
     }
+  }
+
+  socketsSetup(){
+    this.socketService.connect('races');
+    this.socketService.joinRoom(this.race._id, 'username');
+    this.socketService
+      .getMessages()
+      .subscribe((message: string) => {
+        this.messages.push(message);
+        console.log(message);
+      });
+    this.socketService
+      .getNotifications()
+      .subscribe((message: string) => {
+    this.messages.push(message);
+    console.log(`!Notify! ${message}`);
+        });            
+  }
+
+  sendMessage() {
+    this.socketService.sendMessage(this.message);
+    let  date: string = new Date().toLocaleTimeString();
+    this.message = `${date} ME: ${this.message}`;
+    this.messages.push(this.message);
+    this.message = "";
   }
 
   async getRace(){

@@ -76,6 +76,25 @@
       </ion-buttons>
     </ion-item>
   </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Chat</ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      <ion-item *ngFor="let msg of messages">
+        {{msg}}
+      </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Message</ion-label>
+          <ion-input autocomplete = "off" type="text" [(ngModel)]="message" required (keyup.enter)="sendMessage()"></ion-input>
+          <ion-buttons slot = "end" color="primary">
+            <ion-button color ="primary" shape = "round" (click)="sendMessage()"><ion-icon name="send" size = "large" color="primary"></ion-icon></ion-button>
+          </ion-buttons>
+        </ion-item>
+    </ion-card-content>
+  </ion-card>
   
 
 </ion-content>
