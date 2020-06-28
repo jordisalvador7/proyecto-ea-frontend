@@ -81,14 +81,15 @@ export class AuthService {
   
 
   socialSignIn = (providerName: string, scopes?: Array<string>): Promise<any>  => {
+    console.log("socialSignin, provider:");
     const provider = new auth.OAuthProvider(providerName);
-
     // add any permission scope you need
     if (scopes) {
       scopes.forEach(scope => {
         provider.addScope(scope);
       });
     }
+    console.log(provider);
     return this.angularFire.signInWithPopup(provider);
   }
   logout = () => {

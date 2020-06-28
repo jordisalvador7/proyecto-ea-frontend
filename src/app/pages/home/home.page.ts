@@ -12,9 +12,13 @@ export class HomePage {
   constructor(private authService: AuthService) {}
 
   googleLogin(){
+    console.log("google login begin");
     this.authService.signInWithGoogle()
     .then((result: any) => {
+      console.log("result:");
+      console.log(result);
       if (result.additionalUserInfo) {
+        console.log("true");
         const loginDto: ILoginDto = {
           username: result.additionalUserInfo.profile.id,
           email: result.additionalUserInfo.profile.email
