@@ -16,11 +16,12 @@ import { environment } from '../environments/environment';
 
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { SocketService } from './services/socket/socket.service';
+import { AngularFireModule } from '@angular/fire';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, IonicStorageModule.forRoot(), ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,HttpClientModule, IonicStorageModule.forRoot(), AngularFireModule.initializeApp(environment.firebase), ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })],
   providers: [
     Geolocation,
     StatusBar,
