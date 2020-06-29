@@ -71,6 +71,7 @@ export class RaceinfoPage {
       time: this.time
     }
     this.newComment.author = this.me.username;
+    this.socketsSetup();
   }
 
   async leafletMap()
@@ -121,6 +122,8 @@ export class RaceinfoPage {
   }
 
   sendMessage() {
+    console.log("sending:");
+    console.log(this.message);
     this.socketService.sendMessage(this.message);
     let  date: string = new Date().toLocaleTimeString();
     this.message = `${date} ME: ${this.message}`;

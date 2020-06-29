@@ -31,6 +31,9 @@ export class MapPage {
     private location:LocationService, 
     private router:Router,
     private authService:AuthService)  { 
+      this.router.routeReuseStrategy.shouldReuseRoute = function(){
+        return false;
+      } 
     this.platform.ready().then(() => {
     this.distance = '100000';
   }) }
