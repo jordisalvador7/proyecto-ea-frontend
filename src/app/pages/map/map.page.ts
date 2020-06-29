@@ -8,6 +8,7 @@ import { Platform } from '@ionic/angular';
 import { Plugins } from '@capacitor/core';
 import { LocationService } from 'src/app/services/location/location.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { MAP_URL } from 'src/environments/custom';
 
 
 const { Geolocation } = Plugins;
@@ -84,7 +85,7 @@ export class MapPage {
     this.latitude = position.coords.latitude;
     this.longitude = position.coords.longitude;
     this.map.setView([this.latitude, this.longitude], 10);
-    tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+    tileLayer(MAP_URL, {
       attribution: 'edupala.com © ionic LeafLet',
     }).addTo(this.map);
     this.getCurrentPosition();
@@ -97,7 +98,7 @@ export class MapPage {
     this.longitude = position.coords.longitude;
     console.log('Current', position);
     this.map.setView([this.latitude, this.longitude], 12);
-    tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+    tileLayer(MAP_URL, {
       attribution: 'edupala.com © ionic LeafLet',
     }).addTo(this.map);
     marker([this.latitude, this.longitude]).addTo(this.map)
@@ -109,7 +110,7 @@ export class MapPage {
     const url:string = '/races/races/nearest/'+ this.distance + '/' + this.latitude + '/' + this.longitude
     this.map.remove();
     this.map = new Map('mapId').setView([this.latitude, this.longitude], 10);
-    tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+    tileLayer(MAP_URL, {
       attribution: 'edupala.com © ionic LeafLet',
     }).addTo(this.map);
     this.http.get<Racemodel[]>(url).subscribe(

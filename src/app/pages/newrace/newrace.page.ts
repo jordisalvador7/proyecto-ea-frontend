@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { LocationService } from 'src/app/services/location/location.service';
 import { Usermodel } from 'src/app/models/user/usermodel';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { MAP_URL } from 'src/environments/custom';
 
 @Component({
   selector: 'app-newrace',
@@ -76,7 +77,7 @@ export class NewracePage implements OnInit {
     const position = await this.location.getLocation();
     console.log('Current', position);
     this.map.setView([position.coords.latitude, position.coords.longitude], 12);
-    tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+    tileLayer(MAP_URL, {
       attribution: '', 
     }).addTo(this.map);
 
