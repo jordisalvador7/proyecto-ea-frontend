@@ -9,8 +9,8 @@ import { ILoginDto } from 'src/app/models/Dtos/ILoginDto';
 })
 export class LoginPage implements OnInit {
   loginDto: ILoginDto = {
-    username: 'username75',
-    password: '12345678'
+    username: '',
+    password: ''
   }
 
   constructor(private authService: AuthService) { }
