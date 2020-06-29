@@ -106,7 +106,7 @@ export class RaceinfoPage {
 
   socketsSetup(){
     this.socketService.connect('races');
-    this.socketService.joinRoom(this.race._id, 'username');
+    this.socketService.joinRoom(this.race._id, this.me.username);
     this.socketService
       .getMessages()
       .subscribe((message: string) => {

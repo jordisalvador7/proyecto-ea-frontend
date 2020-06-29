@@ -73,7 +73,7 @@ export class RacesPage implements OnInit {
       }
     );
     this.socketService.connect('races');
-    this.socketService.joinRoom('default', 'username');
+    this.socketService.joinRoom('default', this.me.username);
     this.socketService
       .getMessages()
       .subscribe((message: string) => {
