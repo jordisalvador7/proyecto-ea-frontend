@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Map, latLng, tileLayer, Layer, marker } from 'leaflet';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { SocketService } from 'src/app/services/socket/socket.service';
+import { MAP_URL } from 'src/environments/custom';
 
 @Component({
   selector: 'app-raceinfo',
@@ -95,7 +96,7 @@ export class RaceinfoPage {
       }
       console.log(this.latitude , this.longitude);
       this.map.setView([this.latitude, this.longitude], 15);
-      tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+      tileLayer(MAP_URL, {
         attribution: 'edupala.com © ionic LeafLet',
       }).addTo(this.map);
     }
