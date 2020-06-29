@@ -3,6 +3,7 @@ WORKDIR /usr/src/app
 COPY . .
 RUN echo "export const API_URL = 'https://api.runnea.tk';" > ./src/environments/custom.ts
 RUN echo "export const SOCKETS_URL = 'https://sockets.runnea.tk';" >> ./src/environments/custom.ts
+RUN echo "export const LOCATION_URL = 'https://location.runnea.tk/';" >> ./src/environments/custom.ts
 RUN npm install
 RUN npm run-script build
 

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { GeolocationPosition, Geolocation } from '@capacitor/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { LOCATION_URL } from 'src/environments/custom';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,7 @@ export class LocationService {
       lat = 41.27555556;
       lon = 1.98694444;
       //intenta por ip
-      const location = await this.http.get<any>(`http://ip-api.com/json/`, { headers: this.headers }).toPromise();
+      const location = await this.http.get<any>(LOCATION_URL, { headers: this.headers }).toPromise();
       console.log(location);
       if(location.status == 'success'){
         lat = location.lat;
