@@ -2,7 +2,7 @@ FROM node:latest AS build
 WORKDIR /usr/src/app
 COPY . .
 RUN echo "export const API_URL = 'https://api.runnea.tk';" > ./src/environments/custom.ts
-RUN echo "export const SOCKETS_URL = 'http://runnea.tk:3001';" >> ./src/environments/custom.ts
+RUN echo "export const SOCKETS_URL = 'https://sockets.runnea.tk';" >> ./src/environments/custom.ts
 RUN npm install
 RUN npm run-script build
 
